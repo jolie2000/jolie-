@@ -93,6 +93,151 @@
             }
         }
 
+        /* Pastel color themes: the original pink, a powder blue, and a soft mint */
+        body.theme-blue {
+            --theme-bg: #F1F7FF;
+            --theme-dot: #C8DDF3;
+            --theme-surface: #FBFDFF;
+            --theme-soft: #EAF3FC;
+            --theme-border: #C4D9EF;
+            --theme-text: #40566D;
+            background-color: var(--theme-bg);
+            background-image: radial-gradient(var(--theme-dot) 1.5px, transparent 1.5px);
+            color: var(--theme-text);
+        }
+
+        body.theme-mint {
+            --theme-bg: #F1FAF5;
+            --theme-dot: #C5E4D2;
+            --theme-surface: #FBFFFC;
+            --theme-soft: #E8F5ED;
+            --theme-border: #C4E0CF;
+            --theme-text: #3D5A4B;
+            background-color: var(--theme-bg);
+            background-image: radial-gradient(var(--theme-dot) 1.5px, transparent 1.5px);
+            color: var(--theme-text);
+        }
+
+        body.theme-blue header,
+        body.theme-mint header {
+            background-color: var(--theme-surface) !important;
+            border-color: var(--theme-border) !important;
+            color: var(--theme-text);
+        }
+
+        body.theme-blue .coquette-card,
+        body.theme-blue .bg-white,
+        body.theme-blue .bg-white\/90,
+        body.theme-mint .coquette-card,
+        body.theme-mint .bg-white,
+        body.theme-mint .bg-white\/90 {
+            background-color: var(--theme-surface) !important;
+            background-image: none !important;
+            border-color: var(--theme-border) !important;
+            color: var(--theme-text) !important;
+        }
+
+        body.theme-blue .bg-coquette-cream,
+        body.theme-blue .bg-coquette-softRose,
+        body.theme-blue .bg-coquette-pink,
+        body.theme-blue .bg-pink-50,
+        body.theme-blue .bg-pink-100,
+        body.theme-blue .bg-purple-50,
+        body.theme-blue .bg-purple-100,
+        body.theme-blue .bg-indigo-50,
+        body.theme-blue .bg-indigo-100,
+        body.theme-blue .bg-sky-50,
+        body.theme-blue .bg-sky-100,
+        body.theme-blue .bg-teal-50,
+        body.theme-blue .bg-teal-100,
+        body.theme-blue .bg-amber-50,
+        body.theme-blue .bg-amber-100,
+        body.theme-blue .bg-red-50,
+        body.theme-blue .bg-red-100,
+        body.theme-blue .bg-rose-50,
+        body.theme-blue .bg-rose-100,
+        body.theme-blue .bg-yellow-50,
+        body.theme-blue .bg-yellow-100,
+        body.theme-mint .bg-coquette-cream,
+        body.theme-mint .bg-coquette-softRose,
+        body.theme-mint .bg-coquette-pink,
+        body.theme-mint .bg-pink-50,
+        body.theme-mint .bg-pink-100,
+        body.theme-mint .bg-purple-50,
+        body.theme-mint .bg-purple-100,
+        body.theme-mint .bg-indigo-50,
+        body.theme-mint .bg-indigo-100,
+        body.theme-mint .bg-sky-50,
+        body.theme-mint .bg-sky-100,
+        body.theme-mint .bg-teal-50,
+        body.theme-mint .bg-teal-100,
+        body.theme-mint .bg-amber-50,
+        body.theme-mint .bg-amber-100,
+        body.theme-mint .bg-red-50,
+        body.theme-mint .bg-red-100,
+        body.theme-mint .bg-rose-50,
+        body.theme-mint .bg-rose-100,
+        body.theme-mint .bg-yellow-50,
+        body.theme-mint .bg-yellow-100 {
+            background-color: var(--theme-soft) !important;
+            color: var(--theme-text) !important;
+        }
+
+        body.theme-blue .bg-gradient-to-r,
+        body.theme-blue .bg-gradient-to-br,
+        body.theme-blue .bg-gradient-to-b,
+        body.theme-mint .bg-gradient-to-r,
+        body.theme-mint .bg-gradient-to-br,
+        body.theme-mint .bg-gradient-to-b {
+            background-image: none !important;
+        }
+
+        body.theme-blue [class*="text-coquette-chocolate"],
+        body.theme-blue [class*="text-indigo-"],
+        body.theme-blue [class*="text-pink-"],
+        body.theme-blue [class*="text-purple-"],
+        body.theme-blue [class*="text-teal-"],
+        body.theme-blue [class*="text-amber-"],
+        body.theme-blue [class*="text-sky-"],
+        body.theme-blue [class*="text-rose-"],
+        body.theme-blue [class*="text-red-"],
+        body.theme-mint [class*="text-coquette-chocolate"],
+        body.theme-mint [class*="text-indigo-"],
+        body.theme-mint [class*="text-pink-"],
+        body.theme-mint [class*="text-purple-"],
+        body.theme-mint [class*="text-teal-"],
+        body.theme-mint [class*="text-amber-"],
+        body.theme-mint [class*="text-sky-"],
+        body.theme-mint [class*="text-rose-"],
+        body.theme-mint [class*="text-red-"] {
+            color: var(--theme-text) !important;
+        }
+
+        body.theme-blue [class*="border-coquette-pink"],
+        body.theme-blue [class*="border-pink-"],
+        body.theme-mint [class*="border-coquette-pink"],
+        body.theme-mint [class*="border-pink-"] {
+            border-color: var(--theme-border) !important;
+        }
+
+        body.theme-blue input,
+        body.theme-blue textarea,
+        body.theme-blue select,
+        body.theme-mint input,
+        body.theme-mint textarea,
+        body.theme-mint select {
+            background-color: var(--theme-surface) !important;
+            color: var(--theme-text) !important;
+            border-color: var(--theme-border) !important;
+        }
+
+        body.theme-blue input::placeholder,
+        body.theme-blue textarea::placeholder,
+        body.theme-mint input::placeholder,
+        body.theme-mint textarea::placeholder {
+            color: #8294A8;
+        }
+
         .coquette-card {
             background: #FFFFFF;
             border: 2px solid #FFD6E7;
@@ -231,8 +376,44 @@
         </div>
     </div>
 
+    <!-- BIRTHDAY YEAR FOLDER PICKER -->
+    <div id="birthdayFolderHub" class="hidden fixed inset-0 z-[60] bg-coquette-cream/95 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+        <div class="coquette-card p-6 sm:p-8 w-full max-w-3xl text-center relative overflow-hidden">
+            <div class="washi-tape"></div>
+            <span class="text-4xl">📂✨🎀</span>
+            <h2 class="font-script text-3xl sm:text-4xl font-bold text-coquette-deepPink mt-2">Jolie’s Birthday Scrapbook</h2>
+            <p class="text-sm text-coquette-chocolate/80 mt-2 mb-6">Pick a year to open its little folder 💌</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-left">
+                <button type="button" onclick="openBirthdayFolder(24)" class="coquette-card p-5 sm:p-6 border-2 border-coquette-pink bg-gradient-to-br from-white to-pink-50 hover:-translate-y-1 transition-transform text-left">
+                    <span class="text-4xl block mb-3">📁🎂🦋</span>
+                    <span class="block font-handwriting text-3xl font-bold text-coquette-deepPink">Turning 24</span>
+                    <span class="block text-xs text-coquette-chocolate/80 mt-1">Open Jolie’s birthday world, memories, music, and dreams. 🎀✨</span>
+                </button>
+                <button type="button" onclick="openBirthdayFolder(23)" class="coquette-card p-5 sm:p-6 border-2 border-sky-200 bg-gradient-to-br from-white to-sky-50 hover:-translate-y-1 transition-transform text-left">
+                    <span class="text-4xl block mb-3">📁📱🥹</span>
+                    <span class="block font-handwriting text-3xl font-bold text-sky-700">Turning 23</span>
+                    <span class="block text-xs text-coquette-chocolate/80 mt-1">A little note from a birthday with no phone photos. ☁️💌</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TURNING 23 MEMORY NOTE -->
+    <div id="birthday23Archive" class="hidden fixed inset-0 z-[70] bg-coquette-chocolate/50 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+        <div class="coquette-card p-6 sm:p-8 w-full max-w-xl text-center relative max-h-[90vh] overflow-y-auto">
+            <button type="button" onclick="backToBirthdayFolders()" class="absolute top-4 left-4 px-3 py-1.5 bg-white border border-sky-200 rounded-full text-xs font-bold text-sky-800 shadow-sm hover:bg-sky-50">← Folders</button>
+            <span class="text-5xl block mt-8 mb-3">📱💔🦋</span>
+            <h2 class="font-script text-3xl sm:text-4xl font-bold text-sky-700 mb-4">Jolie’s Turning 23</h2>
+            <div class="p-5 bg-sky-50 border border-sky-200 rounded-2xl text-sm leading-relaxed text-coquette-chocolate">
+                I had a good birthday, but my phone was stolen, so I don’t have any memories to share. 📱💔
+            </div>
+            <p class="font-handwriting text-2xl text-sky-700 mt-4">A little memory kept safe in this folder. ☁️💌</p>
+            <button type="button" onclick="backToBirthdayFolders()" class="mt-5 px-5 py-2.5 bg-sky-600 text-white text-sm font-bold rounded-xl shadow hover:bg-sky-700">Back to birthday folders 📂</button>
+        </div>
+    </div>
+
     <!-- TOP NAVIGATION & TOOLBAR -->
-    <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b-2 border-coquette-pink shadow-sm">
+    <header id="siteHeader" class="hidden sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b-2 border-coquette-pink shadow-sm">
         <div class="max-w-5xl mx-auto px-4 py-2 flex flex-wrap items-center justify-between gap-2">
             <div class="flex items-center space-x-3">
                 <span class="text-2xl floating">🎀</span>
@@ -252,10 +433,12 @@
 
             <!-- Viewport & Audio Switcher Controls -->
             <div class="flex items-center space-x-2 text-xs">
+                <button onclick="backToBirthdayFolders()" class="px-3 py-1.5 rounded-full bg-coquette-cream border border-coquette-pink text-coquette-chocolate hover:bg-coquette-pink font-semibold transition-all">📂 Years</button>
                 <button id="viewToggleBtn" onclick="togglePhoneView()" class="px-3 py-1.5 rounded-full bg-coquette-cream border border-coquette-pink text-coquette-chocolate hover:bg-coquette-pink font-semibold flex items-center gap-1 transition-all">
                     <i class="fa-solid fa-mobile-screen"></i>
                     <span id="viewToggleLabel">Mobile Frame</span>
                 </button>
+                <button id="themeToggleBtn" type="button" aria-label="Switch color theme" onclick="cycleTheme()" class="px-3 py-1.5 rounded-full bg-coquette-cream border border-coquette-pink text-coquette-chocolate hover:bg-coquette-pink font-semibold transition-all">🌸 Pink theme</button>
                 <button onclick="triggerConfettiExplosion(); playSound('chime')" class="px-3 py-1.5 rounded-full bg-coquette-deepPink text-white font-bold hover:opacity-90 transition-all shadow-md">
                     ✨ Sparkles!
                 </button>
@@ -264,7 +447,7 @@
     </header>
 
     <!-- MAIN VIEWPORT CONTAINER -->
-    <div id="appContainer" class="flex-1 max-w-5xl w-full mx-auto px-4 pt-4 transition-all duration-300">
+    <div id="appContainer" class="hidden flex-1 max-w-5xl w-full mx-auto px-4 pt-4 transition-all duration-300">
 
         <!-- HERO WELCOME BANNER -->
         <section class="mb-8">
@@ -281,7 +464,7 @@
                     </svg>
                 </div>
                 <h1 class="font-script text-3xl md:text-4xl font-bold text-coquette-deepPink mb-2">Welcome to Jolie's World 🌸</h1>
-                <p class="text-xs md:text-sm text-coquette-chocolate max-w-lg mx-auto">Explore interactive journals, scrapbook photos, mini-games, daily mood logs, faith reflections, and test your bestie status in our 20-question quiz!</p>
+                <p class="text-xs md:text-sm text-coquette-chocolate max-w-lg mx-auto">😂 Enjoy this space! 🤣</p>
             </div>
         </section>
 
@@ -317,45 +500,6 @@
                 <!-- Progress Bar -->
                 <div class="max-w-md mx-auto bg-coquette-softRose rounded-full h-3 border border-coquette-pink overflow-hidden">
                     <div id="cdProgressBar" class="bg-coquette-deepPink h-full transition-all duration-1000" style="width: 50%;"></div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 3. MOBILE MONEY PAYMENT CARD -->
-        <section class="mb-10">
-            <div class="coquette-card p-6 relative bg-gradient-to-br from-white via-coquette-softRose/40 to-coquette-butter/30 border-2 border-coquette-deepPink">
-                <div class="washi-tape"></div>
-                <div class="flex flex-col md:flex-row items-center justify-between gap-6">
-                    <div class="text-center md:text-left space-y-1">
-                        <span class="px-3 py-1 bg-coquette-deepPink text-white text-[10px] font-bold rounded-full uppercase tracking-wider">
-                            🍓 Treat Jolie Birthday Gifts
-                        </span>
-                        <h3 class="font-handwriting text-3xl font-bold text-coquette-chocolate">Click to Treat Jolie 🍓</h3>
-                        <p class="text-xs text-coquette-chocolate/80 max-w-md">Send birthday love, sweet treats, boba tea, or flowers directly via Mobile Money!</p>
-                    </div>
-
-                    <!-- Payment Details Box -->
-                    <div class="w-full md:w-auto bg-white p-4 rounded-2xl border-2 border-coquette-pink shadow-sm space-y-3">
-                        <div class="flex items-center justify-between gap-4 bg-coquette-cream p-2.5 rounded-xl border border-coquette-pink/60">
-                            <div>
-                                <span class="block text-[10px] text-coquette-chocolate/70 font-semibold">Mobile Money Number</span>
-                                <span class="font-mono font-bold text-sm text-coquette-chocolate">0793359712</span>
-                            </div>
-                            <button onclick="copyToClipboard('0793359712', 'Phone number copied!')" class="px-3 py-1.5 bg-coquette-pink hover:bg-coquette-deepPink hover:text-white transition-all text-coquette-chocolate font-bold text-xs rounded-xl flex items-center gap-1 shadow-sm">
-                                <span>Copy 📋</span>
-                            </button>
-                        </div>
-
-                        <div class="flex items-center justify-between gap-4 bg-coquette-cream p-2.5 rounded-xl border border-coquette-pink/60">
-                            <div>
-                                <span class="block text-[10px] text-coquette-chocolate/70 font-semibold">Account Name</span>
-                                <span class="font-bold text-sm text-coquette-deepPink">Uwase Jolly</span>
-                            </div>
-                            <button onclick="copyToClipboard('Uwase Jolly', 'Account name copied!')" class="px-3 py-1.5 bg-coquette-pink hover:bg-coquette-deepPink hover:text-white transition-all text-coquette-chocolate font-bold text-xs rounded-xl flex items-center gap-1 shadow-sm">
-                                <span>Copy 📋</span>
-                            </button>
-                        </div>
-                    </div>
                 </div>
             </div>
         </section>
@@ -537,6 +681,44 @@
             <!-- Sticky Notes Preview Grid -->
             <div id="mainGuestbookPreview" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
                 <!-- Dynamically Rendered Notes -->
+            </div>
+        </section>
+
+        <!-- MOBILE MONEY PAYMENT CARD — LAST ON THE PAGE -->
+        <section class="mb-4">
+            <div class="coquette-card p-6 relative bg-gradient-to-br from-white via-coquette-softRose/40 to-coquette-butter/30 border-2 border-coquette-deepPink">
+                <div class="washi-tape"></div>
+                <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                    <div class="text-center md:text-left space-y-1">
+                        <span class="px-3 py-1 bg-coquette-deepPink text-white text-[10px] font-bold rounded-full uppercase tracking-wider">
+                            🍓 Treat Jolie Birthday Gifts
+                        </span>
+                        <h3 class="font-handwriting text-3xl font-bold text-coquette-chocolate">Click to Treat Jolie 🍓</h3>
+                        <p class="text-xs text-coquette-chocolate/80 max-w-md">Send birthday love, sweet treats, boba tea, or flowers directly via Mobile Money!</p>
+                    </div>
+
+                    <div class="w-full md:w-auto bg-white p-4 rounded-2xl border-2 border-coquette-pink shadow-sm space-y-3">
+                        <div class="flex items-center justify-between gap-4 bg-coquette-cream p-2.5 rounded-xl border border-coquette-pink/60">
+                            <div>
+                                <span class="block text-[10px] text-coquette-chocolate/70 font-semibold">Mobile Money Number</span>
+                                <span class="font-mono font-bold text-sm text-coquette-chocolate">0793359712</span>
+                            </div>
+                            <button onclick="copyToClipboard('0793359712', 'Phone number copied!')" class="px-3 py-1.5 bg-coquette-pink hover:bg-coquette-deepPink hover:text-white transition-all text-coquette-chocolate font-bold text-xs rounded-xl flex items-center gap-1 shadow-sm">
+                                <span>Copy 📋</span>
+                            </button>
+                        </div>
+
+                        <div class="flex items-center justify-between gap-4 bg-coquette-cream p-2.5 rounded-xl border border-coquette-pink/60">
+                            <div>
+                                <span class="block text-[10px] text-coquette-chocolate/70 font-semibold">Account Name</span>
+                                <span class="font-bold text-sm text-coquette-deepPink">Uwase Jolly</span>
+                            </div>
+                            <button onclick="copyToClipboard('Uwase Jolly', 'Account name copied!')" class="px-3 py-1.5 bg-coquette-pink hover:bg-coquette-deepPink hover:text-white transition-all text-coquette-chocolate font-bold text-xs rounded-xl flex items-center gap-1 shadow-sm">
+                                <span>Copy 📋</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -1067,6 +1249,26 @@
             playSound('sparkle');
             triggerConfettiExplosion();
             document.getElementById('welcomeOverlay').classList.add('hidden');
+            document.getElementById('birthdayFolderHub').classList.remove('hidden');
+        }
+
+        function openBirthdayFolder(age) {
+            document.getElementById('birthdayFolderHub').classList.add('hidden');
+            if (age === 23) {
+                document.getElementById('birthday23Archive').classList.remove('hidden');
+                return;
+            }
+            document.getElementById('siteHeader').classList.remove('hidden');
+            document.getElementById('appContainer').classList.remove('hidden');
+            window.scrollTo(0, 0);
+        }
+
+        function backToBirthdayFolders() {
+            document.getElementById('birthday23Archive').classList.add('hidden');
+            document.getElementById('siteHeader').classList.add('hidden');
+            document.getElementById('appContainer').classList.add('hidden');
+            document.getElementById('birthdayFolderHub').classList.remove('hidden');
+            window.scrollTo(0, 0);
         }
 
         // --- 2. Real-Time Live Countdown to Nov 19 (Africa/Kampala UTC+3) ---
@@ -1373,6 +1575,7 @@
 
         // --- Initialization on Load ---
         window.onload = function() {
+            applySavedTheme();
             const randomQuote = dailyQuotes[Math.floor(Math.random() * dailyQuotes.length)];
             document.getElementById('dailyQuoteText').innerText = `"${randomQuote}"`;
             
@@ -1390,6 +1593,32 @@
         };
 
         // --- Viewport Toggle ---
+        function updateThemeToggleButton() {
+            const theme = localStorage.getItem('jolie_theme') || 'pink';
+            const button = document.getElementById('themeToggleBtn');
+            const labels = { pink: '🌸 Pink theme', blue: '🌊 Blue theme', mint: '🍃 Mint theme' };
+            button.textContent = labels[theme] || labels.pink;
+            button.setAttribute('aria-label', `Current theme: ${theme}. Click to switch colors.`);
+        }
+
+        function applySavedTheme() {
+            const savedTheme = localStorage.getItem('jolie_theme');
+            const theme = ['blue', 'mint'].includes(savedTheme) ? savedTheme : 'pink';
+            document.body.classList.remove('theme-blue', 'theme-mint');
+            if (theme !== 'pink') document.body.classList.add(`theme-${theme}`);
+            localStorage.setItem('jolie_theme', theme);
+            updateThemeToggleButton();
+        }
+
+        function cycleTheme() {
+            const currentTheme = localStorage.getItem('jolie_theme') || 'pink';
+            const nextTheme = { pink: 'blue', blue: 'mint', mint: 'pink' }[currentTheme] || 'blue';
+            document.body.classList.remove('theme-blue', 'theme-mint');
+            if (nextTheme !== 'pink') document.body.classList.add(`theme-${nextTheme}`);
+            localStorage.setItem('jolie_theme', nextTheme);
+            updateThemeToggleButton();
+        }
+
         function togglePhoneView() {
             const container = document.getElementById('appContainer');
             const label = document.getElementById('viewToggleLabel');
