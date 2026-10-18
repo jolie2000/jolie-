@@ -1,0 +1,1649 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jolie's World 🌸 | Coquette Birthday Interactive Portal</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Dancing+Script:wght@700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        coquette: {
+                            pink: '#FFD6E7',
+                            deepPink: '#F65BA7',
+                            rose: '#D83B84',
+                            cream: '#FFF7EF',
+                            lavender: '#E9DEFF',
+                            butter: '#FFF0B8',
+                            chocolate: '#5E3E4D',
+                            plum: '#5E3E4D',
+                            softRose: '#FFE4EE'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        handwriting: ['"Caveat"', 'cursive'],
+                        script: ['"Dancing Script"', 'cursive']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom Styles & Utilities */
+        body {
+            background-color: #FFF7EF;
+            background-image: radial-gradient(#FFD6E7 1.5px, transparent 1.5px);
+            background-size: 24px 24px;
+            color: #5E3E4D;
+            user-select: none;
+        }
+
+        .coquette-card {
+            background: #FFFFFF;
+            border: 2px solid #FFD6E7;
+            border-radius: 28px;
+            box-shadow: 0 10px 25px -5px rgba(246, 91, 167, 0.15), 0 8px 10px -6px rgba(246, 91, 167, 0.1);
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .coquette-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 18px 30px -5px rgba(246, 91, 167, 0.25);
+            border-color: #F65BA7;
+        }
+
+        .washi-tape {
+            position: absolute;
+            height: 22px;
+            width: 90px;
+            background: rgba(255, 214, 231, 0.85);
+            border: 1px dashed #F65BA7;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%) rotate(-2deg);
+            z-index: 10;
+        }
+
+        /* Sparkle Trail Canvas */
+        #sparkleCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        /* Custom Scrollbars */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #FFF7EF;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #FFD6E7;
+            border-radius: 999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #F65BA7;
+        }
+
+        /* Phone Frame Simulation */
+        .phone-frame {
+            max-width: 412px;
+            margin: 0 auto;
+            border: 12px solid #333;
+            border-radius: 44px;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+            overflow: hidden;
+        }
+
+        .shake-animation {
+            animation: wiggle 0.2s ease-in-out infinite;
+        }
+
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(-3deg) scale(1.02); }
+            50% { transform: rotate(3deg) scale(0.98); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(2deg); }
+        }
+
+        .floating {
+            animation: float 4s ease-in-out infinite;
+        }
+
+        /* Notification Toast */
+        #toastNotice {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col font-sans pb-12">
+
+    <!-- Sparkle Canvas for Cursor Effects -->
+    <canvas id="sparkleCanvas"></canvas>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toastNotice" class="fixed top-5 right-5 z-50 transform translate-y-[-150%] opacity-0 bg-coquette-deepPink text-white px-5 py-3 rounded-2xl shadow-xl flex items-center gap-3 font-semibold text-xs border-2 border-white">
+        <span id="toastIcon">✨</span>
+        <span id="toastMsg">Action completed!</span>
+    </div>
+
+    <!-- 1. CARTOON WELCOME POP-UP OVERLAY -->
+    <div id="welcomeOverlay" class="fixed inset-0 z-50 bg-coquette-chocolate/60 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="bg-white rounded-[32px] border-4 border-coquette-pink max-w-md w-full p-8 text-center relative shadow-2xl overflow-hidden transform transition-all">
+            <div class="washi-tape"></div>
+            
+            <!-- Animated Peeking Bunny/Cat Mascot SVG -->
+            <div class="w-28 h-28 mx-auto -mt-2 mb-2 floating relative">
+                <svg viewBox="0 0 100 100" class="w-full h-full drop-shadow-md">
+                    <!-- Ears -->
+                    <ellipse cx="35" cy="25" rx="8" ry="20" fill="#FFD6E7" stroke="#F65BA7" stroke-width="2"/>
+                    <ellipse cx="35" cy="25" rx="4" ry="12" fill="#FFE4EE"/>
+                    <ellipse cx="65" cy="25" rx="8" ry="20" fill="#FFD6E7" stroke="#F65BA7" stroke-width="2"/>
+                    <ellipse cx="65" cy="25" rx="4" ry="12" fill="#FFE4EE"/>
+                    <!-- Head -->
+                    <circle cx="50" cy="55" r="32" fill="#FFFFFF" stroke="#FFD6E7" stroke-width="3"/>
+                    <!-- Eyes -->
+                    <circle cx="40" cy="50" r="3.5" fill="#5E3E4D"/>
+                    <circle cx="60" cy="50" r="3.5" fill="#5E3E4D"/>
+                    <circle cx="41.5" cy="48.5" r="1.2" fill="#FFFFFF"/>
+                    <circle cx="61.5" cy="48.5" r="1.2" fill="#FFFFFF"/>
+                    <!-- Cheeks -->
+                    <ellipse cx="33" cy="56" rx="4" ry="2.5" fill="#F65BA7" opacity="0.4"/>
+                    <ellipse cx="67" cy="56" rx="4" ry="2.5" fill="#F65BA7" opacity="0.4"/>
+                    <!-- Mouth & Nose -->
+                    <polygon points="50,54 48,52 52,52" fill="#F65BA7"/>
+                    <path d="M 46 57 Q 50 61 54 57" stroke="#5E3E4D" stroke-width="2" fill="none" stroke-linecap="round"/>
+                    <!-- Bow -->
+                    <path d="M 60 28 C 55 20, 50 32, 65 35 C 70 32, 75 20, 70 28 Z" fill="#F65BA7"/>
+                    <circle cx="65" cy="28" r="3" fill="#FFD6E7"/>
+                </svg>
+            </div>
+
+            <h2 class="font-script text-3xl md:text-4xl font-bold text-coquette-deepPink mb-2">Jolie's World 🌸</h2>
+            <p class="font-handwriting text-2xl text-coquette-chocolate mb-3">"Hey! Welcome to Jolie's Birthday Project! ✨"</p>
+            <p class="text-xs text-coquette-chocolate/80 mb-6 px-2">Step inside for sweet music, photo polaroids, mini-games, bestie quizzes, and birthday surprises! 🎀</p>
+
+            <button onclick="enterBirthdayWorld()" class="w-full py-4 bg-gradient-to-r from-coquette-deepPink to-coquette-rose text-white font-extrabold rounded-2xl text-base shadow-lg hover:brightness-105 transform hover:scale-102 active:scale-98 transition-all flex items-center justify-center gap-2">
+                <span>Let's Enter! 🌸</span>
+                <i class="fa-solid fa-sparkles"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- TOP NAVIGATION & TOOLBAR -->
+    <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b-2 border-coquette-pink shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 py-2 flex flex-wrap items-center justify-between gap-3">
+            <div class="flex items-center space-x-3">
+                <span class="text-2xl floating">🎀</span>
+                <span class="font-script text-2xl md:text-3xl font-bold text-coquette-deepPink">Jolie's World 🌸</span>
+                <button onclick="triggerBowClick()" class="bg-coquette-pink hover:bg-coquette-deepPink hover:text-white transition-colors text-coquette-chocolate text-xs px-2.5 py-1 rounded-full font-semibold flex items-center gap-1 shadow-sm">
+                    <span>🎀 Secrets:</span>
+                    <span id="bowCounter">0/5</span>
+                </button>
+            </div>
+
+            <!-- Dynamic Greeting Banner -->
+            <div class="hidden lg:flex items-center bg-coquette-softRose px-4 py-1.5 rounded-full border border-coquette-pink text-xs text-coquette-chocolate font-medium">
+                <span class="mr-2">✨ Today in Jolie's World:</span>
+                <span id="dailyQuoteText" class="italic">"Radiate brightness wherever you step!"</span>
+                <span class="ml-3 font-semibold text-coquette-deepPink" id="currentDateDisplay">--.--.----</span>
+            </div>
+
+            <!-- Viewport & Audio Switcher Controls -->
+            <div class="flex items-center space-x-2 text-xs">
+                <button id="viewToggleBtn" onclick="togglePhoneView()" class="px-3 py-1.5 rounded-full bg-coquette-cream border border-coquette-pink text-coquette-chocolate hover:bg-coquette-pink font-semibold flex items-center gap-1 transition-all">
+                    <i class="fa-solid fa-mobile-screen"></i>
+                    <span id="viewToggleLabel">Mobile Frame</span>
+                </button>
+                <button onclick="triggerConfettiExplosion(); playSound('chime')" class="px-3 py-1.5 rounded-full bg-coquette-deepPink text-white font-bold hover:opacity-90 transition-all shadow-md">
+                    ✨ Sparkles!
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN VIEWPORT CONTAINER -->
+    <div id="appContainer" class="flex-1 max-w-7xl w-full mx-auto px-4 pt-6 transition-all duration-300">
+
+        <!-- HERO WELCOME BANNER -->
+        <section class="mb-8">
+            <div class="coquette-card p-6 text-center relative overflow-hidden bg-gradient-to-r from-coquette-pink/30 via-white to-coquette-lavender/30">
+                <div class="washi-tape"></div>
+                <div class="w-16 h-16 mx-auto mb-2 floating">
+                    <svg viewBox="0 0 100 100" class="w-full h-full">
+                        <circle cx="50" cy="50" r="45" fill="#FFD6E7" />
+                        <circle cx="35" cy="40" r="5" fill="#5E3E4D" />
+                        <circle cx="65" cy="40" r="5" fill="#5E3E4D" />
+                        <path d="M 40 60 Q 50 70 60 60" stroke="#F65BA7" stroke-width="4" fill="none" stroke-linecap="round" />
+                        <path d="M 20 20 Q 30 10 35 25" stroke="#F65BA7" stroke-width="3" fill="#FFE4EE" />
+                        <path d="M 80 20 Q 70 10 65 25" stroke="#F65BA7" stroke-width="3" fill="#FFE4EE" />
+                    </svg>
+                </div>
+                <h1 class="font-script text-4xl md:text-5xl font-bold text-coquette-deepPink mb-2">Welcome to Jolie's World 🌸</h1>
+                <p class="text-xs md:text-sm text-coquette-chocolate max-w-lg mx-auto">Explore interactive journals, scrapbook photos, mini-games, daily mood logs, faith reflections, and test your bestie status in our 20-question quiz!</p>
+            </div>
+        </section>
+
+        <!-- 2. REAL-TIME LIVE BIRTHDAY COUNTDOWN -->
+        <section class="mb-8">
+            <div class="coquette-card p-6 text-center relative overflow-hidden bg-gradient-to-r from-coquette-pink/30 via-white to-coquette-lavender/30">
+                <div class="washi-tape"></div>
+                <div class="inline-block bg-coquette-deepPink text-white px-4 py-1 rounded-full text-xs font-bold tracking-wide uppercase mb-3 shadow-sm">
+                    🎂 Live Countdown • Africa/Kampala (UTC+3)
+                </div>
+                <h2 class="font-script text-4xl md:text-5xl font-bold text-coquette-deepPink mb-1">♡ Jolie's Birthday ♡</h2>
+                <p class="font-handwriting text-2xl text-coquette-chocolate mb-4">Counting down to my princess day on November 19 🎀</p>
+                
+                <div class="grid grid-cols-4 gap-2 md:gap-4 max-w-xl mx-auto mb-4">
+                    <div class="bg-white/90 border-2 border-coquette-pink p-3 rounded-2xl shadow-sm">
+                        <span id="cdDays" class="block font-sans text-2xl md:text-4xl font-extrabold text-coquette-deepPink">00</span>
+                        <span class="text-[10px] md:text-xs text-coquette-chocolate uppercase font-bold">Days</span>
+                    </div>
+                    <div class="bg-white/90 border-2 border-coquette-pink p-3 rounded-2xl shadow-sm">
+                        <span id="cdHours" class="block font-sans text-2xl md:text-4xl font-extrabold text-coquette-deepPink">00</span>
+                        <span class="text-[10px] md:text-xs text-coquette-chocolate uppercase font-bold">Hours</span>
+                    </div>
+                    <div class="bg-white/90 border-2 border-coquette-pink p-3 rounded-2xl shadow-sm">
+                        <span id="cdMinutes" class="block font-sans text-2xl md:text-4xl font-extrabold text-coquette-deepPink">00</span>
+                        <span class="text-[10px] md:text-xs text-coquette-chocolate uppercase font-bold">Mins</span>
+                    </div>
+                    <div class="bg-white/90 border-2 border-coquette-pink p-3 rounded-2xl shadow-sm">
+                        <span id="cdSeconds" class="block font-sans text-2xl md:text-4xl font-extrabold text-coquette-deepPink">00</span>
+                        <span class="text-[10px] md:text-xs text-coquette-chocolate uppercase font-bold">Secs</span>
+                    </div>
+                </div>
+
+                <!-- Progress Bar -->
+                <div class="max-w-md mx-auto bg-coquette-softRose rounded-full h-3 border border-coquette-pink overflow-hidden">
+                    <div id="cdProgressBar" class="bg-coquette-deepPink h-full transition-all duration-1000" style="width: 50%;"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. MOBILE MONEY PAYMENT CARD -->
+        <section class="mb-10">
+            <div class="coquette-card p-6 relative bg-gradient-to-br from-white via-coquette-softRose/40 to-coquette-butter/30 border-2 border-coquette-deepPink">
+                <div class="washi-tape"></div>
+                <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                    <div class="text-center md:text-left space-y-1">
+                        <span class="px-3 py-1 bg-coquette-deepPink text-white text-[10px] font-bold rounded-full uppercase tracking-wider">
+                            🍓 Treat Jolie Birthday Gifts
+                        </span>
+                        <h3 class="font-handwriting text-3xl font-bold text-coquette-chocolate">Click to Treat Jolie 🍓</h3>
+                        <p class="text-xs text-coquette-chocolate/80 max-w-md">Send birthday love, sweet treats, boba tea, or flowers directly via Mobile Money!</p>
+                    </div>
+
+                    <!-- Payment Details Box -->
+                    <div class="w-full md:w-auto bg-white p-4 rounded-2xl border-2 border-coquette-pink shadow-sm space-y-3">
+                        <div class="flex items-center justify-between gap-4 bg-coquette-cream p-2.5 rounded-xl border border-coquette-pink/60">
+                            <div>
+                                <span class="block text-[10px] text-coquette-chocolate/70 font-semibold">Mobile Money Number</span>
+                                <span class="font-mono font-bold text-sm text-coquette-chocolate">0793359712</span>
+                            </div>
+                            <button onclick="copyToClipboard('0793359712', 'Phone number copied!')" class="px-3 py-1.5 bg-coquette-pink hover:bg-coquette-deepPink hover:text-white transition-all text-coquette-chocolate font-bold text-xs rounded-xl flex items-center gap-1 shadow-sm">
+                                <span>Copy 📋</span>
+                            </button>
+                        </div>
+
+                        <div class="flex items-center justify-between gap-4 bg-coquette-cream p-2.5 rounded-xl border border-coquette-pink/60">
+                            <div>
+                                <span class="block text-[10px] text-coquette-chocolate/70 font-semibold">Account Name</span>
+                                <span class="font-bold text-sm text-coquette-deepPink">Uwase Jolly</span>
+                            </div>
+                            <button onclick="copyToClipboard('Uwase Jolly', 'Account name copied!')" class="px-3 py-1.5 bg-coquette-pink hover:bg-coquette-deepPink hover:text-white transition-all text-coquette-chocolate font-bold text-xs rounded-xl flex items-center gap-1 shadow-sm">
+                                <span>Copy 📋</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. MAIN INTERACTIVE PROJECT CARDS GRID -->
+        <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+            
+            <!-- Card 1: Bestie Quiz Game -->
+            <div onclick="openModal('quizModal')" class="coquette-card p-6 cursor-pointer relative group flex flex-col justify-between border-2 border-coquette-deepPink bg-gradient-to-br from-white to-pink-50">
+                <div class="washi-tape"></div>
+                <div>
+                    <div class="w-12 h-12 rounded-2xl bg-coquette-deepPink text-white flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform shadow-md">
+                        💗
+                    </div>
+                    <h3 class="font-handwriting text-2xl font-bold text-coquette-deepPink mb-1">♡ How Well Do You Know Jolie? ♡</h3>
+                    <p class="text-xs text-coquette-chocolate/80">Interactive 20-question Bestie Test with score ranking, audio FX & custom badges!</p>
+                </div>
+                <div class="mt-4 flex justify-between items-center text-xs font-bold text-coquette-deepPink">
+                    <span>Take The Bestie Test 🎀</span>
+                    <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                </div>
+            </div>
+
+            <!-- Card 2: Get to Know Me -->
+            <div onclick="openModal('knowMeModal')" class="coquette-card p-6 cursor-pointer relative group flex flex-col justify-between">
+                <div class="washi-tape"></div>
+                <div>
+                    <div class="w-12 h-12 rounded-2xl bg-coquette-pink flex items-center justify-center text-coquette-deepPink text-2xl mb-4 group-hover:scale-110 transition-transform">
+                        📸
+                    </div>
+                    <h3 class="font-handwriting text-2xl font-bold text-coquette-chocolate mb-1">Get to Know Me First 📸</h3>
+            <p class="text-xs text-coquette-chocolate/80">Meet Jolie, her family, her dreams, and the little things she loves. 💗</p>
+                </div>
+                <div class="mt-4 flex justify-between items-center text-xs font-bold text-coquette-deepPink">
+                    <span>Explore Bio & Audio</span>
+                    <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                </div>
+            </div>
+
+            <!-- Card 3: Crashout Zone -->
+            <div onclick="openModal('crashoutModal')" class="coquette-card p-6 cursor-pointer relative group flex flex-col justify-between">
+                <div class="washi-tape"></div>
+                <div>
+                    <div class="w-12 h-12 rounded-2xl bg-red-100 flex items-center justify-center text-red-500 text-2xl mb-4 group-hover:scale-110 transition-transform">
+                        📉
+                    </div>
+                    <h3 class="font-handwriting text-2xl font-bold text-coquette-chocolate mb-1">Jolie Crashout Zone 📉🙃</h3>
+            <p class="text-xs text-coquette-chocolate/80">A cute little place to vent, laugh, and share Jolie’s dramatic audio moments. 🎙️</p>
+                </div>
+                <div class="mt-4 flex justify-between items-center text-xs font-bold text-coquette-deepPink">
+                    <span>Vent Stress</span>
+                    <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                </div>
+            </div>
+
+            <!-- Card 4: Faith & Bible Verses -->
+            <div onclick="openModal('faithModal')" class="coquette-card p-6 cursor-pointer relative group flex flex-col justify-between">
+                <div class="washi-tape"></div>
+                <div>
+                    <div class="w-12 h-12 rounded-2xl bg-indigo-100 flex items-center justify-center text-indigo-600 text-2xl mb-4 group-hover:scale-110 transition-transform">
+                        ☁️
+                    </div>
+                    <h3 class="font-handwriting text-2xl font-bold text-coquette-chocolate mb-1">Faith & Bible Verses ☁️🙏</h3>
+            <p class="text-xs text-coquette-chocolate/80">Comforting KJV verses organized by the moments your heart needs them. 🕊️</p>
+                </div>
+                <div class="mt-4 flex justify-between items-center text-xs font-bold text-coquette-deepPink">
+                    <span>Scripture Reflection</span>
+                    <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                </div>
+            </div>
+
+            <!-- Card 5: Dear Diary -->
+            <div onclick="openModal('diaryModal')" class="coquette-card p-6 cursor-pointer relative group flex flex-col justify-between">
+                <div class="washi-tape"></div>
+                <div>
+                    <div class="w-12 h-12 rounded-2xl bg-coquette-lavender flex items-center justify-center text-purple-600 text-2xl mb-4 group-hover:scale-110 transition-transform">
+                        💌
+                    </div>
+                    <h3 class="font-handwriting text-2xl font-bold text-coquette-chocolate mb-1">Dear Diary 💌</h3>
+                    <p class="text-xs text-coquette-chocolate/80">Journal entry editor with local storage persistence & cute ribbons.</p>
+                </div>
+                <div class="mt-4 flex justify-between items-center text-xs font-bold text-coquette-deepPink">
+                    <span>Open Journal</span>
+                    <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                </div>
+            </div>
+
+            <!-- Card 6: Vision Board -->
+            <div onclick="openModal('visionModal')" class="coquette-card p-6 cursor-pointer relative group flex flex-col justify-between">
+                <div class="washi-tape"></div>
+                <div>
+                    <div class="w-12 h-12 rounded-2xl bg-sky-100 flex items-center justify-center text-sky-600 text-2xl mb-4 group-hover:scale-110 transition-transform">
+                        ☁️
+                    </div>
+                    <h3 class="font-handwriting text-2xl font-bold text-coquette-chocolate mb-1">Big Dreams Vision Board ☁️</h3>
+            <p class="text-xs text-coquette-chocolate/80">A good life, a degree, a loving companion, and adventures around the world. ☁️</p>
+                </div>
+                <div class="mt-4 flex justify-between items-center text-xs font-bold text-coquette-deepPink">
+                    <span>See Dreams</span>
+                    <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                </div>
+            </div>
+
+            <!-- Card 7: Open When Letters -->
+            <div onclick="openModal('lettersModal')" class="coquette-card p-6 cursor-pointer relative group flex flex-col justify-between">
+                <div class="washi-tape"></div>
+                <div>
+                    <div class="w-12 h-12 rounded-2xl bg-rose-100 flex items-center justify-center text-rose-500 text-2xl mb-4 group-hover:scale-110 transition-transform">
+                        ✉️
+                    </div>
+                    <h3 class="font-handwriting text-2xl font-bold text-coquette-chocolate mb-1">Open When Letters ✉️</h3>
+                    <p class="text-xs text-coquette-chocolate/80">Interactive animated opening envelopes sealed for emotional moments.</p>
+                </div>
+                <div class="mt-4 flex justify-between items-center text-xs font-bold text-coquette-deepPink">
+                    <span>Read Envelopes</span>
+                    <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                </div>
+            </div>
+
+            <!-- Card 8: Sticky Guestbook -->
+            <div onclick="openModal('guestbookModal')" class="coquette-card p-6 cursor-pointer relative group flex flex-col justify-between">
+                <div class="washi-tape"></div>
+                <div>
+                    <div class="w-12 h-12 rounded-2xl bg-amber-100 flex items-center justify-center text-amber-700 text-2xl mb-4 group-hover:scale-110 transition-transform">
+                        🎁
+                    </div>
+                    <h3 class="font-handwriting text-2xl font-bold text-coquette-chocolate mb-1">Sticky Guestbook & Wish Jar 🎁</h3>
+                    <p class="text-xs text-coquette-chocolate/80">Interactive pastel sticky notes corkboard with local storage & like counts.</p>
+                </div>
+                <div class="mt-4 flex justify-between items-center text-xs font-bold text-coquette-deepPink">
+                    <span>Post Notes</span>
+                    <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                </div>
+            </div>
+
+            <!-- Card 9: Audio Synthesizer Room -->
+            <div onclick="openModal('synthModal')" class="coquette-card p-6 cursor-pointer relative group flex flex-col justify-between">
+                <div class="washi-tape"></div>
+                <div>
+                    <div class="w-12 h-12 rounded-2xl bg-teal-100 flex items-center justify-center text-teal-600 text-2xl mb-4 group-hover:scale-110 transition-transform">
+                        🎵
+                    </div>
+                    <h3 class="font-handwriting text-2xl font-bold text-coquette-chocolate mb-1">Coquette Music Room 🎵</h3>
+            <p class="text-xs text-coquette-chocolate/80">A dreamy playlist of Lana, SZA, Taylor Swift, and similar sounds. 🎧</p>
+                </div>
+                <div class="mt-4 flex justify-between items-center text-xs font-bold text-coquette-deepPink">
+                    <span>Play Melodies</span>
+                    <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                </div>
+            </div>
+        </section>
+
+        <!-- COMPLIMENT & SURPRISE QUICK BUTTONS BAR -->
+        <section class="mb-12 flex flex-wrap items-center justify-center gap-4">
+            <button onclick="generateCompliment()" class="px-6 py-3 bg-white border-2 border-coquette-pink hover:border-coquette-deepPink rounded-2xl text-coquette-deepPink font-bold text-xs shadow-md hover:scale-105 transition-all flex items-center gap-2">
+                <span>Give Me Some Love 💕</span>
+            </button>
+            <button onclick="openModal('secretModal')" class="px-6 py-3 bg-coquette-butter border-2 border-amber-300 rounded-2xl text-amber-800 font-bold text-xs shadow-md hover:scale-105 transition-all flex items-center gap-2">
+                <span>Don't Click This 🎁</span>
+            </button>
+            <button onclick="openModal('quizKeyEditorModal')" class="px-6 py-3 bg-coquette-lavender border-2 border-purple-300 rounded-2xl text-purple-900 font-bold text-xs shadow-md hover:scale-105 transition-all flex items-center gap-2">
+                <span>👑 Jolie's Answer Key Editor</span>
+            </button>
+        </section>
+
+        <!-- STICKY GUESTBOOK PREVIEW ON MAIN PAGE -->
+        <section class="mb-16 coquette-card p-6 relative bg-amber-50/50">
+            <div class="washi-tape"></div>
+            <div class="flex justify-between items-center mb-4">
+                <div>
+                    <h3 class="font-handwriting text-3xl font-bold text-coquette-chocolate">Sticky Guestbook Corkboard 📌</h3>
+                    <p class="text-xs text-coquette-chocolate/70">Leave a cute sticky note message for Jolie!</p>
+                </div>
+                <button onclick="openModal('guestbookModal')" class="px-4 py-2 bg-coquette-deepPink text-white text-xs font-bold rounded-xl hover:opacity-90 shadow-sm">
+                    View All / Post
+                </button>
+            </div>
+
+            <!-- Sticky Notes Preview Grid -->
+            <div id="mainGuestbookPreview" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 min-h-[140px]">
+                <!-- Dynamically Rendered Notes -->
+            </div>
+        </section>
+
+    </div>
+
+    <!-- MODALS CONTAINER -->
+
+    <!-- MODAL 1: ♡ How Well Do You Know Jolie? ♡ Quiz Game -->
+    <div id="quizModal" class="hidden fixed inset-0 z-50 bg-coquette-chocolate/50 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-[32px] border-4 border-coquette-pink max-w-2xl w-full p-6 relative max-h-[90vh] overflow-y-auto shadow-2xl">
+            <button onclick="closeModal('quizModal')" class="absolute top-4 right-4 text-coquette-chocolate hover:text-coquette-deepPink font-bold text-2xl z-10">&times;</button>
+            <div class="washi-tape"></div>
+
+            <!-- Audio Room Header Bar -->
+            <div class="flex justify-between items-center mb-4 pb-2 border-b border-coquette-pink/40 text-xs">
+                <span class="font-bold text-coquette-deepPink">🎵 Audio Room: Bestie Beats</span>
+                <button onclick="toggleAudioRoom('quiz')" class="px-3 py-1 bg-coquette-pink text-coquette-chocolate font-semibold rounded-full text-[10px]">
+                    <span id="quizAudioLabel">🔊 Play Music Room</span>
+                </button>
+            </div>
+
+            <!-- Quiz Screen 1: Landing -->
+            <div id="quizLandingScreen" class="text-center py-4">
+                <span class="text-5xl floating inline-block mb-2">🎀</span>
+                <h2 class="font-script text-3xl md:text-4xl font-bold text-coquette-deepPink mb-2">♡ How Well Do You Know Jolie? ♡</h2>
+                <p class="font-handwriting text-2xl text-coquette-chocolate mb-4">Think you know me? Prove it, bestie! 🎀</p>
+                
+                <div class="bg-coquette-softRose border-2 border-coquette-pink p-4 rounded-2xl mb-6 text-xs text-coquette-chocolate max-w-md mx-auto space-y-2 shadow-sm text-left">
+                    <p class="font-bold text-sm text-coquette-deepPink text-center">✨ Test Instructions ✨</p>
+                    <p>• 20 questions. One score. How well do you REALLY know me?</p>
+                    <p>• Select 1 answer for each question to move forward.</p>
+                    <p>• Sound FX on every pick + receive a custom Bestie Rank Badge!</p>
+                </div>
+
+                <button onclick="startQuizGame()" class="px-8 py-3.5 bg-coquette-deepPink text-white font-extrabold rounded-2xl text-lg hover:bg-fuchsia-600 shadow-lg transform hover:scale-105 active:scale-95 transition-all">
+                    Start the Bestie Test 💗
+                </button>
+            </div>
+
+            <!-- Quiz Screen 2: Active Questions -->
+            <div id="quizActiveScreen" class="hidden py-2">
+                <!-- Header & Progress -->
+                <div class="mb-4">
+                    <div class="flex justify-between items-center text-xs font-bold text-coquette-chocolate mb-1">
+                        <span id="quizQuestionCounter">Question 1 / 20</span>
+                        <span id="quizScoreTracker">Score: 0</span>
+                    </div>
+                    <div class="w-full bg-coquette-softRose rounded-full h-3 border border-coquette-pink overflow-hidden">
+                        <div id="quizProgressBar" class="bg-coquette-deepPink h-full transition-all duration-300" style="width: 5%;"></div>
+                    </div>
+                </div>
+
+                <!-- Question Card -->
+                <div class="bg-coquette-cream border-2 border-coquette-pink rounded-2xl p-5 mb-4 text-center shadow-inner relative">
+                    <h3 id="quizQuestionText" class="font-sans text-lg md:text-xl font-bold text-coquette-chocolate mb-1">Question text goes here?</h3>
+                </div>
+
+                <!-- Answer Choices -->
+                <div id="quizOptionsContainer" class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+                    <!-- Dynamic Buttons -->
+                </div>
+
+                <!-- Feedback Banner -->
+                <div id="quizFeedbackBox" class="hidden p-3 rounded-xl text-center text-xs font-bold transition-all">
+                    <span id="quizFeedbackText">Feedback!</span>
+                </div>
+            </div>
+
+            <!-- Quiz Screen 3: Results & Badge -->
+            <div id="quizResultsScreen" class="hidden text-center py-6">
+                <div id="quizBadgeIcon" class="text-6xl mb-2 floating inline-block">👑</div>
+                <h3 class="font-script text-3xl font-bold text-coquette-deepPink mb-1" id="quizRankTitle">Certified Bestie 🎀</h3>
+                <p class="text-xs md:text-sm text-coquette-chocolate mb-4 font-medium" id="quizRankSubtitle">You know Jolie inside and out!</p>
+
+                <div class="bg-coquette-softRose border-2 border-coquette-pink rounded-2xl p-6 max-w-md mx-auto mb-6 shadow-sm">
+                    <span class="text-xs uppercase font-bold text-coquette-chocolate tracking-wider">Final Score</span>
+                    <div id="quizFinalScore" class="text-4xl font-extrabold text-coquette-deepPink my-2">20 / 20</div>
+                    <div id="quizPercentage" class="text-xs font-bold text-coquette-chocolate">(100%)</div>
+                </div>
+
+                <div class="flex justify-center gap-3">
+                    <button onclick="restartQuizGame()" class="px-6 py-3 bg-coquette-deepPink text-white font-bold rounded-2xl text-xs hover:opacity-90 shadow-md">
+                        🔄 Retake Quiz
+                    </button>
+                    <button onclick="closeModal('quizModal')" class="px-6 py-3 bg-coquette-pink text-coquette-chocolate font-bold rounded-2xl text-xs hover:bg-coquette-deepPink hover:text-white transition-colors shadow-md">
+                        🌸 Back to World
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- MODAL 1B: Jolie's Quiz Answer Key Editor -->
+    <div id="quizKeyEditorModal" class="hidden fixed inset-0 z-50 bg-coquette-chocolate/50 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-[32px] border-4 border-purple-300 max-w-xl w-full p-6 relative max-h-[85vh] overflow-y-auto shadow-2xl">
+            <button onclick="closeModal('quizKeyEditorModal')" class="absolute top-4 right-4 text-coquette-chocolate font-bold text-2xl">&times;</button>
+            <h2 class="font-handwriting text-3xl font-bold text-purple-700 mb-2">👑 Jolie's Answer Key Editor</h2>
+            <p class="text-xs text-coquette-chocolate/80 mb-4">Configure the correct answer choices for your 20-question quiz!</p>
+
+            <div id="answerKeyEditorList" class="space-y-3 mb-6">
+                <!-- Dynamically Rendered Controls -->
+            </div>
+
+            <button onclick="saveAnswerKey()" class="w-full py-3 bg-purple-600 text-white font-bold rounded-2xl hover:bg-purple-700 shadow-md text-xs uppercase tracking-wide">
+                Save Answer Key 💾
+            </button>
+        </div>
+    </div>
+
+    <!-- MODAL 2: Get to Know Me First -->
+    <div id="knowMeModal" class="hidden fixed inset-0 z-50 bg-coquette-chocolate/50 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-[32px] border-4 border-coquette-pink max-w-lg w-full p-6 relative max-h-[85vh] overflow-y-auto">
+            <button onclick="closeModal('knowMeModal')" class="absolute top-4 right-4 text-coquette-chocolate hover:text-coquette-deepPink font-bold text-xl">&times;</button>
+            <div class="washi-tape"></div>
+
+            <h2 class="font-handwriting text-3xl font-bold text-coquette-deepPink mb-2">🎀 Get to Know Jolie</h2>
+            
+            <!-- Polaroid Frame -->
+            <div class="bg-white p-4 border-2 border-coquette-pink rounded-2xl shadow-md mb-4 text-center">
+                <div class="w-full h-48 rounded-xl bg-coquette-softRose flex items-center justify-center text-5xl mb-3 border border-coquette-pink/50">
+                    👑🌸🎸
+                </div>
+                <span class="font-handwriting text-2xl text-coquette-chocolate block font-bold">Uwase Jolie ✨</span>
+                <span class="text-[10px] text-coquette-chocolate/60">Rwandan girl • Kampala, Uganda • Birthday: November 19 🎂</span>
+            </div>
+
+            <!-- Audio Room Buttons for Piano & Guitar -->
+            <div class="bg-coquette-butter p-4 rounded-2xl border border-amber-300 mb-4 text-center">
+                <span class="text-xs font-bold text-amber-900 block mb-2">🎹 Music Room Audio FX</span>
+                <div class="flex justify-center gap-2">
+                    <button onclick="playMusicalNote(523.25)" class="px-3 py-2 bg-amber-500 text-white font-bold rounded-xl text-xs hover:bg-amber-600 shadow-sm">
+                        🎹 Piano C
+                    </button>
+                    <button onclick="playMusicalNote(659.25)" class="px-3 py-2 bg-amber-500 text-white font-bold rounded-xl text-xs hover:bg-amber-600 shadow-sm">
+                        🎹 Piano E
+                    </button>
+                    <button onclick="playMusicalNote(783.99)" class="px-3 py-2 bg-rose-500 text-white font-bold rounded-xl text-xs hover:bg-rose-600 shadow-sm">
+                        🎸 Guitar Chord
+                    </button>
+                </div>
+            </div>
+
+            <div class="space-y-3 text-sm leading-relaxed text-coquette-chocolate">
+                <p class="p-4 bg-coquette-cream rounded-2xl border border-coquette-pink">Hiii, besties! 💗 My name is Uwase Jolie, but you can just call me Jolie. I’m a Rwandan girl born in a little town in Rwanda, turning 24 on November 19th. 🎂✨ I’m currently living in Kampala, Uganda, where life is teaching me new things, bringing new experiences, and giving me plenty of memories to collect.</p>
+                <p class="p-4 bg-pink-50 rounded-2xl border border-pink-200">I come from a beautiful family with five siblings and the most beautiful mom, who will always have a special place in my heart. Family means a lot to me, and I’m grateful for the people who make life feel a little warmer. 🥹💕</p>
+                <p class="p-4 bg-coquette-cream rounded-2xl border border-coquette-pink">I’m currently pursuing an online degree in Software Development, working towards my dreams one little step at a time. 💻🎓 I may still be figuring some things out, but I believe in growing, learning, and becoming the woman I dream of being.</p>
+                <p class="p-4 bg-pink-50 rounded-2xl border border-pink-200">Outside my studies, I love going out, exploring new places, enjoying good vibes, dressing cute, taking pictures, laughing until my stomach hurts, and making memories that deserve their own little scrapbook. 🎀📸 I enjoy the simple things in life, but I also have big dreams and a soft spot for beautiful experiences.</p>
+                <p class="p-4 bg-coquette-cream rounded-2xl border border-coquette-pink">I’m a girl who wants to enjoy her twenties, discover more of the world, build a life she’s proud of, and surround herself with genuine people. I believe life is about growth, love, faith, a little adventure, and learning to choose yourself without feeling guilty. 💗</p>
+                <p class="p-4 bg-pink-50 rounded-2xl border border-pink-200">A few things about me? I’m a work in progress, a dreamer with plans, a soft girl with ambitions, and someone who believes her story is still unfolding. I’m learning to celebrate the little wins, trust the journey, and make room for the beautiful things life has waiting for me.</p>
+                <p class="p-4 bg-coquette-cream rounded-2xl border border-coquette-pink">So, welcome to my little corner of the internet! ♡ This is where I keep pieces of my personality, my dreams, my favorite things, my memories, and all the little moments that make me Jolie.<br><br><span class="font-bold text-coquette-deepPink">Remember: You might know my name, but there's always more to the story. 🎀💋</span></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 3: Crashout Zone -->
+    <div id="crashoutModal" class="hidden fixed inset-0 z-50 bg-coquette-chocolate/50 backdrop-blur-sm flex items-center justify-center p-4">
+        <div id="crashoutBox" class="bg-white rounded-[32px] border-4 border-red-300 max-w-lg w-full p-6 relative text-center max-h-[85vh] overflow-y-auto">
+            <button onclick="closeModal('crashoutModal')" class="absolute top-4 right-4 text-coquette-chocolate font-bold text-xl">&times;</button>
+            <h2 class="font-handwriting text-3xl font-bold text-red-500 mb-2">Jolie Crashout Meter 📉🙃</h2>
+            <p class="text-xs text-coquette-chocolate/80 mb-4">Feeling overwhelmed? Smash the button below to vent!</p>
+
+            <div class="bg-red-50 p-4 rounded-2xl border border-red-200 mb-4">
+                <span class="text-xs uppercase font-bold text-red-400">Current Stress Level</span>
+                <div id="crashoutLevelText" class="text-2xl font-black text-red-600 my-1">Level 0: Calm & Sweet 🌸</div>
+                <div class="w-full bg-red-100 h-4 rounded-full overflow-hidden border border-red-200">
+                    <div id="crashoutBar" class="bg-red-500 h-full w-0 transition-all"></div>
+                </div>
+            </div>
+
+            <div class="bg-pink-50 p-4 rounded-2xl border border-pink-200 mb-4 text-left">
+                <span class="text-xs font-extrabold text-pink-700">🎙️ Jolie’s dramatic audio corner</span>
+                <p class="text-xs text-coquette-chocolate mt-1">Do you wanna hear audios of Jolie crushing out? Hahahahaaa 🎀💕</p>
+                <div id="crashoutAudioList" class="mt-3 max-h-64 overflow-y-auto space-y-2 pr-1"></div>
+            </div>
+
+            <div class="bg-purple-50 p-4 rounded-2xl border border-purple-200 mb-4 text-left">
+                <div class="flex items-center justify-between gap-2 mb-2">
+                    <span class="text-xs font-extrabold text-purple-700">💬 Random talksss xoxoxo</span>
+                    <span class="text-xs">🦋✨</span>
+                </div>
+                <p id="randomTalkText" aria-live="polite" class="min-h-10 flex items-center p-3 bg-white rounded-xl text-xs text-purple-900 italic">Bestie, take a deep breath… you’re doing better than you think. 💗</p>
+                <button onclick="showRandomTalk()" class="mt-2 w-full py-2 bg-purple-500 hover:bg-purple-600 text-white font-bold text-xs rounded-xl shadow-sm transition-transform hover:scale-[1.02]">Gimme random talk! 🎀</button>
+            </div>
+
+            <button onclick="increaseCrashout()" class="w-full py-3 bg-red-500 hover:bg-red-600 text-white font-extrabold rounded-2xl shadow-lg transition-transform active:scale-95">
+                RAGE TRIGGER! 🔥
+            </button>
+            <button onclick="resetCrashout()" class="mt-2 text-xs text-coquette-chocolate underline">Reset Calmness</button>
+        </div>
+    </div>
+
+    <!-- MODAL 4: Faith & Bible Verses -->
+    <div id="faithModal" class="hidden fixed inset-0 z-50 bg-coquette-chocolate/50 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-[32px] border-4 border-indigo-200 max-w-lg w-full p-6 relative max-h-[85vh] overflow-y-auto">
+            <button onclick="closeModal('faithModal')" class="absolute top-4 right-4 text-coquette-chocolate font-bold text-xl">&times;</button>
+            <h2 class="font-handwriting text-3xl font-bold text-indigo-600 mb-2">Faith & Bible Verses ☁️🙏</h2>
+
+            <!-- Featured Verse: Jeremiah 29:11 -->
+            <div class="bg-indigo-50 p-5 rounded-2xl border-2 border-indigo-200 text-xs text-indigo-950 mb-4 shadow-sm relative">
+                <span class="px-2.5 py-0.5 bg-indigo-600 text-white text-[10px] font-bold rounded-full uppercase tracking-wider mb-2 inline-block">
+                    Featured Verse ✨
+                </span>
+                <p class="font-serif text-sm md:text-base italic mb-2 leading-relaxed">
+                    "For I know the plans I have for you," declares the LORD, "plans to prosper you and not to harm you, plans to give you hope and a future."
+                </p>
+                <span class="font-bold text-indigo-800 block text-right">— Jeremiah 29:11</span>
+            </div>
+
+            <!-- Ambient Scripture Audio Button -->
+            <div class="bg-coquette-cream p-3 rounded-2xl border border-coquette-pink flex items-center justify-between mb-4 text-xs">
+                <span class="font-bold text-coquette-chocolate">🎵 Scripture Ambience Room</span>
+                <button onclick="playSound('chime')" class="px-3 py-1.5 bg-indigo-600 text-white font-bold rounded-xl text-[10px]">
+                    Play Soft Chime 🔔
+                </button>
+            </div>
+
+            <p class="text-xs text-indigo-800/75 mb-3">God’s little corner in Jolie’s World · King James Version (KJV) · Pick a feeling and find a verse for your heart. 🕊️</p>
+            <div id="scriptureGroups" class="space-y-4"></div>
+        </div>
+    </div>
+
+    <!-- MODAL 5: Dear Diary -->
+    <div id="diaryModal" class="hidden fixed inset-0 z-50 bg-coquette-chocolate/50 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-[#FFFDF9] rounded-[32px] border-4 border-coquette-pink max-w-xl w-full p-6 relative max-h-[85vh] overflow-y-auto">
+            <button onclick="closeModal('diaryModal')" class="absolute top-4 right-4 text-coquette-chocolate font-bold text-xl">&times;</button>
+            <h2 class="font-handwriting text-3xl font-bold text-coquette-deepPink mb-2">Dear Diary 💌</h2>
+
+            <!-- New Entry Form -->
+            <div class="bg-coquette-softRose p-4 rounded-2xl border border-coquette-pink mb-4">
+                <input id="diaryTitle" type="text" placeholder="Entry Title..." class="w-full px-3 py-2 rounded-xl border border-coquette-pink text-xs font-bold mb-2 focus:outline-none focus:border-coquette-deepPink">
+                <textarea id="diaryBody" rows="3" placeholder="Dear Diary..." class="w-full px-3 py-2 rounded-xl border border-coquette-pink text-xs focus:outline-none focus:border-coquette-deepPink"></textarea>
+                <button onclick="saveDiaryEntry()" class="mt-2 w-full py-2.5 bg-coquette-deepPink text-white font-bold text-xs rounded-xl hover:opacity-90 shadow-sm">
+                    Save Note 🎀
+                </button>
+            </div>
+
+            <!-- Diary Entries List -->
+            <div id="diaryList" class="space-y-3">
+                <!-- Dynamically rendered -->
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 6: Vision Board -->
+    <div id="visionModal" class="hidden fixed inset-0 z-50 bg-coquette-chocolate/50 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-[32px] border-4 border-sky-200 max-w-lg w-full p-6 relative max-h-[85vh] overflow-y-auto">
+            <button onclick="closeModal('visionModal')" class="absolute top-4 right-4 text-coquette-chocolate font-bold text-xl">&times;</button>
+            <h2 class="font-handwriting text-3xl font-bold text-sky-600 mb-2">Big Dreams Vision Board ☁️</h2>
+
+            <div id="visionList" class="space-y-3 mt-4">
+                <!-- Dynamically rendered -->
+            </div>
+            <p class="mt-4 text-center text-xs italic text-sky-700">A gentle reminder: you’re allowed to want a beautiful, joyful life. ♡</p>
+        </div>
+    </div>
+
+    <!-- MODAL 7: Open When Letters -->
+    <div id="lettersModal" class="hidden fixed inset-0 z-50 bg-coquette-chocolate/50 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-[32px] border-4 border-rose-300 max-w-xl w-full p-6 relative max-h-[85vh] overflow-y-auto">
+            <button onclick="closeModal('lettersModal')" class="absolute top-4 right-4 text-coquette-chocolate font-bold text-xl">&times;</button>
+            <h2 class="font-handwriting text-3xl font-bold text-rose-500 mb-2">Open When Letters ✉️</h2>
+            
+            <div id="lettersList" class="space-y-3 mt-4">
+                <!-- Dynamically rendered letters -->
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 8: Sticky Guestbook Full Modal -->
+    <div id="guestbookModal" class="hidden fixed inset-0 z-50 bg-coquette-chocolate/50 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-[32px] border-4 border-amber-300 max-w-2xl w-full p-6 relative max-h-[85vh] overflow-y-auto">
+            <button onclick="closeModal('guestbookModal')" class="absolute top-4 right-4 text-coquette-chocolate font-bold text-xl">&times;</button>
+            <h2 class="font-handwriting text-3xl font-bold text-amber-700 mb-2">Sticky Guestbook & Wish Jar 🎁</h2>
+
+            <!-- Input Form -->
+            <div class="flex flex-col sm:flex-row gap-2 mb-6">
+                <input id="modalGuestNameInput" type="text" placeholder="Your Name..." class="px-3 py-2 rounded-xl border border-coquette-pink text-xs focus:outline-none">
+                <input id="modalGuestMsgInput" type="text" placeholder="Write a message..." class="flex-1 px-3 py-2 rounded-xl border border-coquette-pink text-xs focus:outline-none">
+                <select id="modalGuestColorSelect" class="px-2 py-2 rounded-xl border border-coquette-pink text-xs bg-white text-coquette-chocolate">
+                    <option value="bg-pink-100">Pink Note</option>
+                    <option value="bg-amber-100">Yellow Note</option>
+                    <option value="bg-purple-100">Purple Note</option>
+                    <option value="bg-sky-100">Blue Note</option>
+                </select>
+                <button onclick="addModalGuestbookNote()" class="px-4 py-2 bg-coquette-deepPink text-white text-xs font-bold rounded-xl hover:opacity-90">
+                    Post Note
+                </button>
+            </div>
+
+            <div id="modalGuestbookGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <!-- Dynamically Rendered Notes -->
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 9: Audio Synthesizer Room -->
+    <div id="synthModal" class="hidden fixed inset-0 z-50 bg-coquette-chocolate/50 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-[32px] border-4 border-teal-200 max-w-xl w-full p-6 relative">
+            <button onclick="closeModal('synthModal')" class="absolute top-4 right-4 text-coquette-chocolate font-bold text-xl">&times;</button>
+            <h2 class="font-handwriting text-3xl font-bold text-teal-600 mb-4">Coquette Music Room 🎵</h2>
+
+            <div class="bg-teal-50 p-6 rounded-2xl border border-teal-200 text-center space-y-4">
+                <span class="text-xs font-bold text-teal-800 block">Interactive Web Audio Melodies</span>
+                
+                <div class="flex justify-center gap-2 flex-wrap">
+                    <button onclick="playMusicalNote(523.25)" class="px-4 py-2 bg-teal-600 text-white font-bold rounded-xl text-xs hover:bg-teal-700">C5</button>
+                    <button onclick="playMusicalNote(587.33)" class="px-4 py-2 bg-teal-600 text-white font-bold rounded-xl text-xs hover:bg-teal-700">D5</button>
+                    <button onclick="playMusicalNote(659.25)" class="px-4 py-2 bg-teal-600 text-white font-bold rounded-xl text-xs hover:bg-teal-700">E5</button>
+                    <button onclick="playMusicalNote(698.46)" class="px-4 py-2 bg-teal-600 text-white font-bold rounded-xl text-xs hover:bg-teal-700">F5</button>
+                    <button onclick="playMusicalNote(783.99)" class="px-4 py-2 bg-teal-600 text-white font-bold rounded-xl text-xs hover:bg-teal-700">G5</button>
+                </div>
+
+                <button onclick="toggleSyntheticAudio()" class="w-full py-3 bg-teal-600 text-white font-bold rounded-xl text-xs hover:bg-teal-700 shadow-md">
+                    <i class="fa-solid fa-music mr-1"></i> Toggle Background Melody Loop
+                </button>
+            </div>
+
+            <div class="mt-4 p-4 bg-pink-50 rounded-2xl border border-pink-200">
+                <h3 class="font-handwriting text-2xl font-bold text-pink-700 mb-1">Jolie’s Daydream Playlist 🎀</h3>
+                <p class="text-[10px] text-pink-800/80 mb-3">Tap a song to find it on YouTube. Songs open in a new tab.</p>
+                <div id="playlistList" class="grid grid-cols-1 sm:grid-cols-2 gap-2"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 10: Secret Surprise -->
+    <div id="secretModal" class="hidden fixed inset-0 z-50 bg-coquette-chocolate/50 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-[32px] border-4 border-coquette-pink max-w-md w-full p-6 relative text-center">
+            <button onclick="closeModal('secretModal')" class="absolute top-4 right-4 text-coquette-chocolate font-bold text-xl">&times;</button>
+            <span class="text-5xl floating block mb-2">🎁</span>
+            <h2 class="font-handwriting text-3xl font-bold text-coquette-deepPink mb-2">You Found The Secret!</h2>
+            <p class="text-xs text-coquette-chocolate mb-4">"You are universally loved, cherished, and irreplaceable. Happy Birthday Jolie!" 🌸✨</p>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // --- Global States & Utilities ---
+        let secretBows = 0;
+        let crashoutLevel = 0;
+        let isPhoneView = false;
+        let audioCtx = null;
+
+        // Daily Quotes Array
+        const dailyQuotes = [
+            "Radiate brightness wherever you step!",
+            "You make the world softer and sweeter 🌸",
+            "Keep blooming at your own pace ✨",
+            "Grace, warmth, and love precede you!"
+        ];
+
+        const scriptureGroups = [
+            { title: "💗 When I need comfort and peace", color: "rose", verses: [
+                ["Psalm 34:18", "The LORD is nigh unto them that are of a broken heart."],
+                ["Matthew 11:28", "Come unto me, all ye that labour and are heavy laden, and I will give you rest."],
+                ["John 14:27", "Peace I leave with you, my peace I give unto you."],
+                ["Psalm 23:4", "I will fear no evil: for thou art with me."],
+                ["Isaiah 41:10", "Fear thou not; for I am with thee."],
+                ["Philippians 4:6–7", "Be careful for nothing; but in every thing by prayer and supplication with thanksgiving let your requests be made known unto God."],
+                ["Psalm 46:10", "Be still, and know that I am God."],
+                ["1 Peter 5:7", "Casting all your care upon him; for he careth for you."],
+                ["Psalm 55:22", "Cast thy burden upon the LORD, and he shall sustain thee."],
+                ["2 Thessalonians 3:16", "Now the Lord of peace himself give you peace always by all means."]
+            ]},
+            { title: "🌸 When I feel afraid or uncertain about my future", color: "sky", verses: [
+                ["Jeremiah 29:11", "For I know the thoughts that I think toward you, saith the LORD, thoughts of peace, and not of evil, to give you an expected end."],
+                ["Proverbs 3:5–6", "Trust in the LORD with all thine heart; and lean not unto thine own understanding."],
+                ["Isaiah 43:2", "When thou passest through the waters, I will be with thee."],
+                ["Joshua 1:9", "Be strong and of a good courage; be not afraid, neither be thou dismayed: for the LORD thy God is with thee whithersoever thou goest."],
+                ["Psalm 32:8", "I will instruct thee and teach thee in the way which thou shalt go."],
+                ["Romans 8:28", "All things work together for good to them that love God."],
+                ["Psalm 37:23–24", "The steps of a good man are ordered by the LORD."],
+                ["Deuteronomy 31:8", "He will be with thee, he will not fail thee, neither forsake thee."],
+                ["Psalm 121:1–2", "My help cometh from the LORD, which made heaven and earth."],
+                ["Proverbs 16:3", "Commit thy works unto the LORD, and thy thoughts shall be established."]
+            ]},
+            { title: "✨ When I need strength and motivation", color: "amber", verses: [
+                ["Philippians 4:13", "I can do all things through Christ which strengtheneth me."],
+                ["Isaiah 40:31", "But they that wait upon the LORD shall renew their strength."],
+                ["Galatians 6:9", "And let us not be weary in well doing: for in due season we shall reap, if we faint not."],
+                ["2 Timothy 1:7", "For God hath not given us the spirit of fear; but of power, and of love, and of a sound mind."],
+                ["Psalm 27:1", "The LORD is my light and my salvation; whom shall I fear?"],
+                ["Romans 12:12", "Rejoicing in hope; patient in tribulation; continuing instant in prayer."],
+                ["1 Corinthians 16:13", "Watch ye, stand fast in the faith, quit you like men, be strong."],
+                ["Hebrews 12:1", "Let us run with patience the race that is set before us."],
+                ["Psalm 31:24", "Be of good courage, and he shall strengthen your heart."],
+                ["2 Corinthians 12:9", "My grace is sufficient for thee: for my strength is made perfect in weakness."]
+            ]},
+            { title: "🩷 When I need to remember my worth", color: "purple", verses: [
+                ["Psalm 139:14", "I will praise thee; for I am fearfully and wonderfully made."],
+                ["Ephesians 2:10", "For we are his workmanship, created in Christ Jesus unto good works."],
+                ["1 Samuel 16:7", "For man looketh on the outward appearance, but the LORD looketh on the heart."],
+                ["Zephaniah 3:17", "He will rejoice over thee with joy; he will rest in his love."],
+                ["Romans 8:38–39", "Nothing shall be able to separate us from the love of God, which is in Christ Jesus our Lord."],
+                ["1 John 3:1", "Behold, what manner of love the Father hath bestowed upon us, that we should be called the sons of God."],
+                ["Matthew 10:31", "Fear ye not therefore, ye are of more value than many sparrows."],
+                ["Isaiah 49:16", "Behold, I have graven thee upon the palms of my hands."]
+            ]},
+            { title: "🤍 When I need love, forgiveness, and healing", color: "rose", verses: [
+                ["1 Corinthians 13:4", "Charity suffereth long, and is kind."],
+                ["Colossians 3:13", "Forbearing one another, and forgiving one another."],
+                ["Ephesians 4:32", "And be ye kind one to another, tenderhearted, forgiving one another."],
+                ["1 John 4:19", "We love him, because he first loved us."],
+                ["Psalm 147:3", "He healeth the broken in heart, and bindeth up their wounds."],
+                ["Micah 6:8", "To do justly, and to love mercy, and to walk humbly with thy God."],
+                ["Romans 12:18", "If it be possible, as much as lieth in you, live peaceably with all men."],
+                ["Proverbs 17:17", "A friend loveth at all times."]
+            ]},
+            { title: "🙏 When I need hope, gratitude, and faith", color: "indigo", verses: [
+                ["Lamentations 3:22–23", "It is of the LORD's mercies that we are not consumed, because his compassions fail not. They are new every morning."],
+                ["Psalm 118:24", "This is the day which the LORD hath made; we will rejoice and be glad in it."],
+                ["1 Thessalonians 5:16–18", "Rejoice evermore. Pray without ceasing. In every thing give thanks."],
+                ["Hebrews 11:1", "Now faith is the substance of things hoped for, the evidence of things not seen."],
+                ["Romans 15:13", "Now the God of hope fill you with all joy and peace in believing."],
+                ["Psalm 126:5", "They that sow in tears shall reap in joy."],
+                ["James 1:5", "If any of you lack wisdom, let him ask of God."],
+                ["Matthew 6:34", "Take therefore no thought for the morrow: for the morrow shall take thought for the things of itself."],
+                ["Psalm 91:1", "He that dwelleth in the secret place of the most High shall abide under the shadow of the Almighty."],
+                ["Numbers 6:24–26", "The LORD bless thee, and keep thee: The LORD make his face shine upon thee, and be gracious unto thee."]
+            ]}
+        ];
+
+        const playlistSongs = [
+            ["mirrorball", "Taylor Swift"], ["Born to Die", "Lana Del Rey"], ["Good Days", "SZA"], ["Without You", "Lana Del Rey"],
+            ["Video Games", "Lana Del Rey"], ["Young and Beautiful", "Lana Del Rey"], ["Summertime Sadness", "Lana Del Rey"],
+            ["Snooze", "SZA"], ["Nobody Gets Me", "SZA"], ["Saturn", "SZA"],
+            ["august", "Taylor Swift"], ["cardigan", "Taylor Swift"], ["This Is Me Trying", "Taylor Swift"], ["The Archer", "Taylor Swift"]
+        ];
+
+        // Web Audio API Sound FX Generator
+        function getAudioContext() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            return audioCtx;
+        }
+
+        function playSound(type) {
+            try {
+                const ctx = getAudioContext();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+
+                if (type === 'sparkle') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(800, ctx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(1600, ctx.currentTime + 0.15);
+                    gain.gain.setValueAtTime(0.2, ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.15);
+                    osc.start();
+                    osc.stop(ctx.currentTime + 0.15);
+                } else if (type === 'chime') {
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(523.25, ctx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(1046.50, ctx.currentTime + 0.3);
+                    gain.gain.setValueAtTime(0.15, ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.3);
+                    osc.start();
+                    osc.stop(ctx.currentTime + 0.3);
+                } else if (type === 'pop') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(400, ctx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(800, ctx.currentTime + 0.08);
+                    gain.gain.setValueAtTime(0.2, ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.08);
+                    osc.start();
+                    osc.stop(ctx.currentTime + 0.08);
+                }
+            } catch (e) {}
+        }
+
+        function playMusicalNote(freq) {
+            try {
+                const ctx = getAudioContext();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = 'triangle';
+                osc.frequency.value = freq;
+                gain.gain.setValueAtTime(0.2, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.4);
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start();
+                osc.stop(ctx.currentTime + 0.4);
+            } catch (e) {}
+        }
+
+        // --- Clipboard Helper with Toast Notice ---
+        function copyToClipboard(text, msg) {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text);
+            } else {
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+            }
+            showToast(msg);
+            playSound('sparkle');
+            triggerConfettiExplosion();
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toastNotice');
+            const toastMsg = document.getElementById('toastMsg');
+            toastMsg.innerText = message;
+            toast.classList.remove('translate-y-[-150%]', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-[-150%]', 'opacity-0');
+            }, 2500);
+        }
+
+        // --- 1. Welcome Overlay Dismissal ---
+        function enterBirthdayWorld() {
+            playSound('sparkle');
+            triggerConfettiExplosion();
+            document.getElementById('welcomeOverlay').classList.add('hidden');
+        }
+
+        // --- 2. Real-Time Live Countdown to Nov 19 (Africa/Kampala UTC+3) ---
+        function startCountdown() {
+            function updateTimer() {
+                const now = new Date();
+                let year = now.getFullYear();
+                
+                // Target: Nov 19 00:00:00 UTC+3
+                let targetDate = new Date(`November 19, ${year} 00:00:00 GMT+0300`);
+                if (now > targetDate) {
+                    targetDate = new Date(`November 19, ${year + 1} 00:00:00 GMT+0300`);
+                }
+
+                const diff = targetDate - now;
+
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+                const minutes = Math.floor((diff / (1000 * 60)) % 60);
+                const seconds = Math.floor((diff / 1000) % 60);
+
+                document.getElementById('cdDays').innerText = days < 10 ? `0${days}` : days;
+                document.getElementById('cdHours').innerText = hours < 10 ? `0${hours}` : hours;
+                document.getElementById('cdMinutes').innerText = minutes < 10 ? `0${minutes}` : minutes;
+                document.getElementById('cdSeconds').innerText = seconds < 10 ? `0${seconds}` : seconds;
+
+                const pct = Math.max(0, Math.min(100, 100 - (days / 365) * 100));
+                document.getElementById('cdProgressBar').style.width = `${pct}%`;
+            }
+
+            updateTimer();
+            setInterval(updateTimer, 1000);
+        }
+
+        // --- 20-QUESTION QUIZ SYSTEM ---
+        const quizQuestions = [
+            { q: "1. What is Jolie's favorite color?", options: ["Pink 🎀", "Purple 💜", "Black 🖤", "Baby blue 🩵"], defaultCorrect: 0 },
+            { q: "2. What would Jolie choose for a perfect day?", options: ["Staying in and relaxing 🧸", "Going shopping 🛍️", "Going on an adventure ✈️", "Eating out with friends 🍓"], defaultCorrect: 0 },
+            { q: "3. What is Jolie most likely to do when bored?", options: ["Listen to music 🎧", "Nap 💤", "Scroll on her phone 📱", "Journal/draw 🎨"], defaultCorrect: 0 },
+            { q: "4. What's Jolie's go-to drink?", options: ["Iced Boba / Tea 🧋", "Iced Coffee ☕", "Fresh Fruit Juice 🍓", "Matcha Latte 🍵"], defaultCorrect: 0 },
+            { q: "5. How does Jolie react when excited?", options: ["Screams and jumps around 🎉", "Giggles uncontrollably 🤭", "Claps her hands 👏", "Gets super talkative 💬"], defaultCorrect: 1 },
+            { q: "6. What music is Jolie most likely listening to?", options: ["Soft Acoustic / Indie Pop 🎸", "R&B / Soul 🎹", "Upbeat Pop Hits 🎶", "Lofi Beats 🎧"], defaultCorrect: 0 },
+            { q: "7. Which animal best fits Jolie's vibe?", options: ["Soft Bunny 🐰", "Cute Kitten 🐱", "Panda 🐼", "Butterfly 🦋"], defaultCorrect: 0 },
+            { q: "8. What is Jolie's favorite sweet treat?", options: ["Strawberry Shortcake 🍰", "Chocolate Brownies 🍫", "Ice Cream 🍦", "Macarons 🧁"], defaultCorrect: 0 },
+            { q: "9. What helps Jolie calm down when stressed?", options: ["Listening to favorite songs 🎵", "Vent to a close bestie 💬", "Taking a shower 🚿", "Eating good food 🍩"], defaultCorrect: 0 },
+            { q: "10. What's Jolie's signature aesthetic style?", options: ["Coquette Ribbon Pink 🎀", "Vintage Aesthetic 📜", "Streetwear Chic 👟", "Minimalist Clean ☁️"], defaultCorrect: 0 },
+            { q: "11. How punctual is Jolie usually?", options: ["Always 10 mins early ⏰", "Right on time 🎯", "Fashionably late 💅", "Constantly running on Jolie Time 🏃‍♀️"], defaultCorrect: 3 },
+            { q: "12. What is Jolie's dream vacation spot?", options: ["Paris, France 🗼", "Tokyo, Japan 🌸", "Santorini, Greece 🏛️", "Cozy Mountain Cabin 🏔️"], defaultCorrect: 0 },
+            { q: "13. What instrument does Jolie love playing?", options: ["Piano & Guitar 🎹🎸", "Violin 🎻", "Drums 🥁", "Saxophone 🎷"], defaultCorrect: 0 },
+            { q: "14. How does Jolie handle a surprise?", options: ["Gasp and smile brightly ✨", "Get super confused first 🤔", "Cry happy tears 🥹", "Freak out in excitement 🤩"], defaultCorrect: 0 },
+            { q: "15. What kind of movies does Jolie enjoy most?", options: ["Cozy Rom-Coms 💕", "Animated Classics 🏰", "Mind Thrillers 🧠", "Comfort Comedies 🍿"], defaultCorrect: 0 },
+            { q: "16. What is Jolie's love language?", options: ["Words of Affirmation 💌", "Quality Time ⏳", "Gifts 🎁", "Acts of Service 🌸"], defaultCorrect: 1 },
+            { q: "17. What is Jolie's favorite season?", options: ["Spring 🌸", "Autumn 🍂", "Summer ☀️", "Winter ❄️"], defaultCorrect: 0 },
+            { q: "18. What would Jolie do if she won a million dollars?", options: ["Travel with loved ones ✈️", "Buy a cozy dream house 🏡", "Donate to charity 💖", "Save and invest 💰"], defaultCorrect: 0 },
+            { q: "19. Which phrase describes Jolie best?", options: ["A ray of sunshine with a golden heart ☀️", "Quiet observer with high energy 🌸", "Life of the party 🥳", "Creative soul 💫"], defaultCorrect: 0 },
+            { q: "20. How much does Jolie love her friends?", options: ["To infinity and beyond! 🚀", "More than words can express 💕", "With her whole heart 💖", "All of the above! 👑"], defaultCorrect: 3 }
+        ];
+
+        let savedKey = JSON.parse(localStorage.getItem('jolie_quiz_key') || 'null');
+        if (!savedKey || savedKey.length !== 20) {
+            savedKey = quizQuestions.map(q => q.defaultCorrect);
+        }
+
+        let currentQuizIndex = 0;
+        let currentQuizScore = 0;
+        let isQuestionAnswered = false;
+
+        function startQuizGame() {
+            currentQuizIndex = 0;
+            currentQuizScore = 0;
+            isQuestionAnswered = false;
+
+            document.getElementById('quizLandingScreen').classList.add('hidden');
+            document.getElementById('quizResultsScreen').classList.add('hidden');
+            document.getElementById('quizActiveScreen').classList.remove('hidden');
+
+            renderQuizQuestion();
+        }
+
+        function renderQuizQuestion() {
+            isQuestionAnswered = false;
+            const qData = quizQuestions[currentQuizIndex];
+
+            document.getElementById('quizQuestionCounter').innerText = `Question ${currentQuizIndex + 1} / 20`;
+            document.getElementById('quizScoreTracker').innerText = `Score: ${currentQuizScore}`;
+            
+            const pct = ((currentQuizIndex + 1) / 20) * 100;
+            document.getElementById('quizProgressBar').style.width = `${pct}%`;
+
+            document.getElementById('quizQuestionText').innerText = qData.q;
+            document.getElementById('quizFeedbackBox').classList.add('hidden');
+
+            const container = document.getElementById('quizOptionsContainer');
+            container.innerHTML = qData.options.map((opt, idx) => `
+                <button onclick="handleQuizAnswer(${idx})" class="w-full p-4 rounded-2xl border-2 border-coquette-pink bg-white text-coquette-chocolate font-bold text-xs text-left hover:border-coquette-deepPink hover:bg-coquette-softRose transition-all flex items-center justify-between shadow-sm">
+                    <span>${opt}</span>
+                    <span class="text-coquette-deepPink font-extrabold text-sm">${['A', 'B', 'C', 'D'][idx]}</span>
+                </button>
+            `).join('');
+        }
+
+        function handleQuizAnswer(selectedIdx) {
+            if (isQuestionAnswered) return;
+            isQuestionAnswered = true;
+
+            const correctIdx = savedKey[currentQuizIndex];
+            const feedbackBox = document.getElementById('quizFeedbackBox');
+            const feedbackText = document.getElementById('quizFeedbackText');
+            feedbackBox.classList.remove('hidden');
+
+            if (selectedIdx === correctIdx) {
+                currentQuizScore++;
+                playSound('sparkle');
+                feedbackBox.className = "p-3 rounded-xl text-center text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-300 mb-4";
+                feedbackText.innerText = "✨ Correct! You really know Jolie!";
+            } else {
+                playSound('pop');
+                feedbackBox.className = "p-3 rounded-xl text-center text-xs font-bold bg-rose-100 text-rose-800 border border-rose-300 mb-4";
+                feedbackText.innerText = `🙃 Oops! Correct answer was: ${quizQuestions[currentQuizIndex].options[correctIdx]}`;
+            }
+
+            document.getElementById('quizScoreTracker').innerText = `Score: ${currentQuizScore}`;
+
+            setTimeout(() => {
+                currentQuizIndex++;
+                if (currentQuizIndex < 20) {
+                    renderQuizQuestion();
+                } else {
+                    showQuizResults();
+                }
+            }, 1200);
+        }
+
+        function showQuizResults() {
+            document.getElementById('quizActiveScreen').classList.add('hidden');
+            document.getElementById('quizResultsScreen').classList.remove('hidden');
+
+            const score = currentQuizScore;
+            const pct = Math.round((score / 20) * 100);
+
+            document.getElementById('quizFinalScore').innerText = `${score} / 20`;
+            document.getElementById('quizPercentage').innerText = `(${pct}%)`;
+
+            const iconEl = document.getElementById('quizBadgeIcon');
+            const titleEl = document.getElementById('quizRankTitle');
+            const subEl = document.getElementById('quizRankSubtitle');
+
+            if (pct >= 90) {
+                iconEl.innerText = "👑";
+                titleEl.innerText = "Certified Bestie 🎀";
+                subEl.innerText = "You know Jolie inside and out! Soulmate energy ✨";
+                triggerConfettiExplosion();
+            } else if (pct >= 70) {
+                iconEl.innerText = "🌸";
+                titleEl.innerText = "Pretty Good Friend 💕";
+                subEl.innerText = "You pay great attention! Very close to bestie status!";
+            } else if (pct >= 50) {
+                iconEl.innerText = "👀";
+                titleEl.innerText = "Acquaintance Status ☕";
+                subEl.innerText = "Not bad! Time for a boba date to catch up more!";
+            } else {
+                iconEl.innerText = "😭";
+                titleEl.innerText = "Who Are You? 🙃";
+                subEl.innerText = "Do you even know Jolie? Go explore her bio and retake!";
+            }
+        }
+
+        function restartQuizGame() {
+            startQuizGame();
+        }
+
+        function openAnswerKeyEditor() {
+            const list = document.getElementById('answerKeyEditorList');
+            list.innerHTML = quizQuestions.map((q, i) => `
+                <div class="p-3 border border-purple-200 bg-purple-50 rounded-xl text-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+                    <span class="font-bold text-purple-900 truncate max-w-xs">${q.q}</span>
+                    <select id="keySelect${i}" class="px-2 py-1 rounded-lg border border-purple-300 bg-white font-semibold text-coquette-chocolate text-xs">
+                        <option value="0" ${savedKey[i] === 0 ? 'selected' : ''}>A: ${q.options[0]}</option>
+                        <option value="1" ${savedKey[i] === 1 ? 'selected' : ''}>B: ${q.options[1]}</option>
+                        <option value="2" ${savedKey[i] === 2 ? 'selected' : ''}>C: ${q.options[2]}</option>
+                        <option value="3" ${savedKey[i] === 3 ? 'selected' : ''}>D: ${q.options[3]}</option>
+                    </select>
+                </div>
+            `).join('');
+        }
+
+        function saveAnswerKey() {
+            for (let i = 0; i < 20; i++) {
+                const val = parseInt(document.getElementById(`keySelect${i}`).value, 10);
+                savedKey[i] = val;
+            }
+            localStorage.setItem('jolie_quiz_key', JSON.stringify(savedKey));
+            showToast("Jolie's Answer Key Saved!");
+            closeModal('quizKeyEditorModal');
+        }
+
+        // --- Sparkle Trail Canvas ---
+        const canvas = document.getElementById('sparkleCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        window.addEventListener('mousemove', (e) => {
+            for (let i = 0; i < 2; i++) {
+                particles.push({
+                    x: e.clientX,
+                    y: e.clientY,
+                    size: Math.random() * 4 + 2,
+                    speedX: (Math.random() - 0.5) * 2,
+                    speedY: (Math.random() - 0.5) * 2,
+                    color: '#F65BA7',
+                    alpha: 1
+                });
+            }
+        });
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach((p, index) => {
+                p.x += p.speedX;
+                p.y += p.speedY;
+                p.alpha -= 0.02;
+                ctx.fillStyle = p.color;
+                ctx.globalAlpha = p.alpha;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fill();
+                if (p.alpha <= 0) particles.splice(index, 1);
+            });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // Synth Melody Toggle
+        let synthPlaying = false;
+        let synthInterval = null;
+        function toggleSyntheticAudio() {
+            if (synthPlaying) {
+                clearInterval(synthInterval);
+                synthPlaying = false;
+                showToast("Music Room Paused");
+            } else {
+                synthPlaying = true;
+                const notes = [523.25, 587.33, 659.25, 698.46, 783.99];
+                let idx = 0;
+                synthInterval = setInterval(() => {
+                    if (!synthPlaying) return;
+                    playMusicalNote(notes[idx % notes.length]);
+                    idx++;
+                }, 400);
+                showToast("Music Room Playing!");
+            }
+        }
+
+        function toggleAudioRoom(tag) {
+            toggleSyntheticAudio();
+            const label = document.getElementById(`${tag}AudioLabel`);
+            if (label) {
+                label.innerText = synthPlaying ? "⏸ Pause Music" : "🔊 Play Music Room";
+            }
+        }
+
+        function escapeHTML(value) {
+            return String(value).replace(/[&<>"']/g, char => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+            })[char]);
+        }
+
+        function renderScriptureGroups() {
+            const container = document.getElementById('scriptureGroups');
+            if (!container) return;
+            container.innerHTML = scriptureGroups.map((group, index) => `
+                <details ${index === 0 ? 'open' : ''} class="group bg-white rounded-2xl border border-indigo-100 shadow-sm overflow-hidden">
+                    <summary class="cursor-pointer list-none p-4 bg-gradient-to-r from-${group.color}-50 to-white flex items-center justify-between gap-2">
+                        <span class="font-bold text-sm text-indigo-950">${escapeHTML(group.title)}</span>
+                        <span class="text-indigo-400 group-open:rotate-180 transition-transform">⌄</span>
+                    </summary>
+                    <div class="p-3 pt-1 space-y-2">
+                        ${group.verses.map(([reference, quote]) => `
+                            <div class="p-3 rounded-xl bg-indigo-50/60 border border-indigo-100/80">
+                                <p class="text-xs leading-relaxed italic text-indigo-950">“${escapeHTML(quote)}”</p>
+                                <p class="mt-1 text-[10px] font-extrabold text-indigo-700 text-right">— ${escapeHTML(reference)}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                </details>
+            `).join('');
+        }
+
+        function renderPlaylist() {
+            const container = document.getElementById('playlistList');
+            if (!container) return;
+            container.innerHTML = playlistSongs.map(([title, artist]) => {
+                const search = encodeURIComponent(`${title} ${artist} official audio`);
+                return `<a href="https://www.youtube.com/results?search_query=${search}" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 p-3 rounded-xl bg-white border border-pink-200 hover:border-pink-400 hover:shadow-sm transition-all text-left"><span class="w-8 h-8 shrink-0 rounded-full bg-pink-100 text-pink-600 flex items-center justify-center">♫</span><span class="min-w-0"><span class="block text-xs font-bold text-pink-900 truncate">${escapeHTML(title)}</span><span class="block text-[10px] text-pink-700">${escapeHTML(artist)}</span></span><span class="ml-auto text-pink-400 text-xs">↗</span></a>`;
+            }).join('');
+        }
+
+        // --- Initialization on Load ---
+        window.onload = function() {
+            const randomQuote = dailyQuotes[Math.floor(Math.random() * dailyQuotes.length)];
+            document.getElementById('dailyQuoteText').innerText = `"${randomQuote}"`;
+            
+            const today = new Date();
+            document.getElementById('currentDateDisplay').innerText = today.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+
+            startCountdown();
+            renderGuestbook();
+            renderDiary();
+            renderVision();
+            renderLetters();
+            renderScriptureGroups();
+            renderPlaylist();
+            renderCrashoutAudios();
+        };
+
+        // --- Viewport Toggle ---
+        function togglePhoneView() {
+            const container = document.getElementById('appContainer');
+            const label = document.getElementById('viewToggleLabel');
+            isPhoneView = !isPhoneView;
+
+            if (isPhoneView) {
+                container.classList.add('phone-frame');
+                label.innerText = "Desktop View";
+            } else {
+                container.classList.remove('phone-frame');
+                label.innerText = "Mobile Frame";
+            }
+        }
+
+        function triggerBowClick() {
+            secretBows++;
+            document.getElementById('bowCounter').innerText = `${secretBows}/5`;
+            playSound('pop');
+            if (secretBows === 5) {
+                openModal('secretModal');
+                secretBows = 0;
+                document.getElementById('bowCounter').innerText = "0/5";
+            }
+        }
+
+        function openModal(id) {
+            if (id === 'quizKeyEditorModal') {
+                openAnswerKeyEditor();
+            }
+            document.getElementById(id).classList.remove('hidden');
+        }
+        function closeModal(id) {
+            document.getElementById(id).classList.add('hidden');
+        }
+
+        // --- Crashout Meter ---
+        const randomTalks = [
+            "Bestie, take a deep breath… you’re doing better than you think. 💗",
+            "Plot twist: Jolie is actually the main character and this is her cute little era. 🎀",
+            "Have you had water today? This is your sparkly reminder to hydrate. 💧✨",
+            "One tiny step still counts, babe. We celebrate tiny wins around here! 🥹💕",
+            "Imagine us booking a flight and becoming mysterious world travelers. 🌍✈️",
+            "If the day is being dramatic, we can be dramatic right back… after a snack. 🍓",
+            "Your future degree is waiting for you to come be brilliant. You’ve got this! 💻🎓",
+            "Sending you a little hug, a little laugh, and a whole lot of xoxoxo. 🫂💞",
+            "Reminder: you are allowed to rest before you earn it. Cozy mode: activated. 🧸",
+            "Somewhere out there, your perfect playlist and a cute café are waiting for you. 🎧☕"
+        ];
+        let lastRandomTalkIndex = -1;
+
+        const crashoutAudios = [
+            { title: "Butterflys and Rainbows", sticker: "🦋🌈", src: "audio-clips/butterflies-and-rainbows.aac" },
+            { title: "Giving Desperate Hahahahaha", sticker: "🥲💅", src: "audio-clips/giving-desperate-hahahaha.aac" },
+            { title: "Boring Story", sticker: "📖😴", src: "audio-clips/boring-story.aac" },
+            { title: "Gratitude Crashout Hahaha", sticker: "🙏🔥", src: "audio-clips/gratitude-crashout.aac" },
+            { title: "Confused Talk Hahahahaha", sticker: "🤔💬", src: "audio-clips/confused-talk.aac" },
+            { title: "Talking Whatever", sticker: "🌀🗣️", src: "audio-clips/talking-whatever.aac" },
+            { title: "Weird Date Hahahahaha", sticker: "🌹😵‍💫", src: "audio-clips/weird-date.aac" },
+            { title: "My Childish Self & E-bus", sticker: "🧸🚌", src: "audio-clips/my-childish-self-and-e-bus.aac" },
+            { title: "Idk Hahaah", sticker: "🤷🏽‍♀️✨", src: "audio-clips/idk-haha.aac" },
+            { title: "Random Talk", sticker: "🎲💬", src: "audio-clips/random-talk.aac" },
+            { title: "Food Review", sticker: "🍟🎤", src: "audio-clips/food-review.aac" }
+        ];
+
+        function renderCrashoutAudios() {
+            const list = document.getElementById('crashoutAudioList');
+            if (!list) return;
+            list.innerHTML = crashoutAudios.map(clip => `
+                <div class="p-3 bg-white rounded-xl border border-pink-200 shadow-sm">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="text-lg" aria-hidden="true">${clip.sticker}</span>
+                        <span class="text-xs font-bold text-pink-900">${clip.title}</span>
+                    </div>
+                    <audio controls preload="none" class="w-full h-9">
+                        <source src="${clip.src}" type="audio/aac">
+                        Your browser can’t play this audio format.
+                    </audio>
+                </div>
+            `).join('');
+        }
+
+        function showRandomTalk() {
+            let nextIndex = Math.floor(Math.random() * randomTalks.length);
+            if (randomTalks.length > 1 && nextIndex === lastRandomTalkIndex) {
+                nextIndex = (nextIndex + 1) % randomTalks.length;
+            }
+            lastRandomTalkIndex = nextIndex;
+            document.getElementById('randomTalkText').innerText = randomTalks[nextIndex];
+            playSound('pop');
+        }
+
+        function increaseCrashout() {
+            crashoutLevel += 25;
+            if (crashoutLevel > 100) crashoutLevel = 100;
+            
+            const bar = document.getElementById('crashoutBar');
+            const text = document.getElementById('crashoutLevelText');
+            const box = document.getElementById('crashoutBox');
+
+            bar.style.width = `${crashoutLevel}%`;
+
+            if (crashoutLevel < 50) {
+                text.innerText = `Level ${crashoutLevel}: Mild Irritation 😤`;
+            } else if (crashoutLevel < 100) {
+                text.innerText = `Level ${crashoutLevel}: HIGH ALERT! 📉`;
+                box.classList.add('shake-animation');
+            } else {
+                text.innerText = `Level 100: CRASHOUT EXPLOSION!! 🔥🙃`;
+                triggerConfettiExplosion();
+                playSound('chime');
+            }
+        }
+
+        function resetCrashout() {
+            crashoutLevel = 0;
+            document.getElementById('crashoutBar').style.width = '0%';
+            document.getElementById('crashoutLevelText').innerText = "Level 0: Calm & Sweet 🌸";
+            document.getElementById('crashoutBox').classList.remove('shake-animation');
+        }
+
+        // --- Dear Diary CRUD ---
+        let diaryEntries = JSON.parse(localStorage.getItem('jolie_diary') || '[]');
+
+        function saveDiaryEntry() {
+            const title = document.getElementById('diaryTitle').value;
+            const body = document.getElementById('diaryBody').value;
+            if (!title || !body) return;
+
+            diaryEntries.push({
+                id: Date.now(),
+                title: title,
+                body: body,
+                date: new Date().toLocaleDateString()
+            });
+
+            localStorage.setItem('jolie_diary', JSON.stringify(diaryEntries));
+            document.getElementById('diaryTitle').value = '';
+            document.getElementById('diaryBody').value = '';
+            renderDiary();
+            showToast("Diary note saved!");
+        }
+
+        function deleteDiary(id) {
+            diaryEntries = diaryEntries.filter(e => e.id !== id);
+            localStorage.setItem('jolie_diary', JSON.stringify(diaryEntries));
+            renderDiary();
+        }
+
+        function renderDiary() {
+            const list = document.getElementById('diaryList');
+            if (diaryEntries.length === 0) {
+                list.innerHTML = `<p class="text-xs text-coquette-chocolate/60 italic text-center py-4">No diary entries yet. Write your thoughts!</p>`;
+                return;
+            }
+            list.innerHTML = diaryEntries.map(e => `
+                <div class="p-3 bg-white border border-coquette-pink rounded-xl relative shadow-sm">
+                    <div class="flex justify-between items-center mb-1">
+                        <span class="font-bold text-xs text-coquette-deepPink">${e.title}</span>
+                        <span class="text-[10px] text-coquette-chocolate/60">${e.date}</span>
+                    </div>
+                    <p class="text-xs text-coquette-chocolate">${e.body}</p>
+                    <button onclick="deleteDiary(${e.id})" class="text-[10px] text-red-400 mt-2 underline">Delete</button>
+                </div>
+            `).join('');
+        }
+
+        // --- Vision Board Items ---
+        const visionItems = [
+            { dream: "I just want a good life, full of little joys 🌷", status: "My intention", color: "bg-pink-100 text-pink-800" },
+            { dream: "To always feel loved by God 🕊️", status: "In my heart", color: "bg-indigo-100 text-indigo-800" },
+            { dream: "Achieve my Software Development degree 💻🎓", status: "In progress", color: "bg-amber-100 text-amber-800" },
+            { dream: "Travel the world and collect beautiful memories 🌍✈️", status: "A big dream", color: "bg-sky-100 text-sky-800" },
+            { dream: "Find a kind, genuine companion to share life with 💞", status: "Open heart", color: "bg-rose-100 text-rose-800" }
+        ];
+
+        function renderVision() {
+            const list = document.getElementById('visionList');
+            list.innerHTML = visionItems.map(v => `
+                <div class="p-3 border border-sky-200 rounded-2xl bg-sky-50/50 flex justify-between items-center text-xs">
+                    <span class="font-bold text-coquette-chocolate">${v.dream}</span>
+                    <span class="px-2.5 py-1 rounded-full text-[10px] font-bold ${v.color}">${v.status}</span>
+                </div>
+            `).join('');
+        }
+
+        // --- Open When Letters ---
+        const letters = [
+            { title: "Open when you feel sad 🌧️", content: "Don't be disheartened! You are stronger than any gloomy moment. Take a deep breath and eat a sweet treat!" },
+            { title: "Open when you feel lost 🧭", content: "Remember who you are! You have an amazing vision and a bright path ahead of you." },
+            { title: "Open on your Birthday 🎂", content: "HAPPY BIRTHDAY JOLIE! May this year bring endless laughter, peace, and beautiful melodies!" }
+        ];
+
+        function renderLetters() {
+            const list = document.getElementById('lettersList');
+            list.innerHTML = letters.map((l, i) => `
+                <div class="border border-rose-200 rounded-2xl p-4 bg-rose-50">
+                    <div class="flex justify-between items-center cursor-pointer" onclick="toggleLetter(${i})">
+                        <span class="font-bold text-xs text-rose-800">${l.title}</span>
+                        <i class="fa-solid fa-chevron-down text-rose-400 text-xs"></i>
+                    </div>
+                    <div id="letterContent${i}" class="hidden mt-3 pt-2 border-t border-rose-200 text-xs text-rose-900 italic">
+                        ${l.content}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function toggleLetter(i) {
+            playSound('pop');
+            const el = document.getElementById(`letterContent${i}`);
+            el.classList.toggle('hidden');
+        }
+
+        function generateCompliment() {
+            const compliments = [
+                "Your smile lights up the whole room! 🌟",
+                "You have the sweetest, kindest heart 🌸",
+                "Your music touches everyone's soul! 🎶",
+                "You are capable of achieving anything! ✨"
+            ];
+            const c = compliments[Math.floor(Math.random() * compliments.length)];
+            showToast(c);
+            triggerConfettiExplosion();
+        }
+
+        // --- Sticky Guestbook Corkboard CRUD ---
+        let guestNotes = JSON.parse(localStorage.getItem('jolie_guestbook') || '[]');
+        if (guestNotes.length === 0) {
+            guestNotes = [
+                { id: 1, name: "Bestie", msg: "Happy Birthday Jolie! Love you so much! 🌸", color: "bg-pink-100", likes: 3 },
+                { id: 2, name: "Friend", msg: "Can't wait to celebrate! Keep shining ✨", color: "bg-amber-100", likes: 1 }
+            ];
+        }
+
+        function addModalGuestbookNote() {
+            const name = document.getElementById('modalGuestNameInput').value || "Anonymous";
+            const msg = document.getElementById('modalGuestMsgInput').value;
+            const color = document.getElementById('modalGuestColorSelect').value;
+
+            if (!msg) return;
+
+            guestNotes.push({
+                id: Date.now(),
+                name: name,
+                msg: msg,
+                color: color,
+                likes: 0
+            });
+
+            localStorage.setItem('jolie_guestbook', JSON.stringify(guestNotes));
+            document.getElementById('modalGuestNameInput').value = '';
+            document.getElementById('modalGuestMsgInput').value = '';
+            renderGuestbook();
+            playSound('pop');
+            showToast("Sticky note posted!");
+        }
+
+        function likeGuestNote(id) {
+            const note = guestNotes.find(n => n.id === id);
+            if (note) {
+                note.likes++;
+                localStorage.setItem('jolie_guestbook', JSON.stringify(guestNotes));
+                renderGuestbook();
+                playSound('sparkle');
+            }
+        }
+
+        function renderGuestbook() {
+            const mainGrid = document.getElementById('mainGuestbookPreview');
+            const modalGrid = document.getElementById('modalGuestbookGrid');
+
+            const html = guestNotes.map(n => `
+                <div class="${n.color} p-4 rounded-2xl border border-black/10 shadow-md relative transform hover:rotate-0 transition-transform duration-200" style="transform: rotate(${(n.id % 7) - 3}deg)">
+                    <div class="w-3 h-3 bg-red-400 rounded-full mx-auto -mt-2 mb-2 shadow-sm"></div>
+                    <p class="text-xs text-coquette-chocolate font-semibold mb-2">"${n.msg}"</p>
+                    <div class="flex justify-between items-center text-[10px] text-coquette-chocolate/70 border-t border-black/5 pt-2">
+                        <span class="font-bold">- ${n.name}</span>
+                        <button onclick="likeGuestNote(${n.id})" class="hover:text-coquette-deepPink font-bold">
+                            ❤️ ${n.likes}
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+
+            if (mainGrid) mainGrid.innerHTML = html;
+            if (modalGrid) modalGrid.innerHTML = html;
+        }
+
+        // --- Sparkle Confetti Explosion Effect ---
+        function triggerConfettiExplosion() {
+            for (let i = 0; i < 30; i++) {
+                particles.push({
+                    x: window.innerWidth / 2 + (Math.random() - 0.5) * 300,
+                    y: window.innerHeight / 2 + (Math.random() - 0.5) * 300,
+                    size: Math.random() * 8 + 4,
+                    speedX: (Math.random() - 0.5) * 8,
+                    speedY: (Math.random() - 0.5) * 8,
+                    color: ['#FFD6E7', '#F65BA7', '#FFF0B8', '#E9DEFF'][Math.floor(Math.random() * 4)],
+                    alpha: 1
+                });
+            }
+        }
+    </script>
+</body>
+</html>
