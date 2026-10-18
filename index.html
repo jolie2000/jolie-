@@ -9,7 +9,7 @@
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Dancing+Script:wght@700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <script>
         tailwind.config = {
@@ -30,8 +30,8 @@
                     },
                     fontFamily: {
                         sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-                        handwriting: ['"Caveat"', 'cursive'],
-                        script: ['"Dancing Script"', 'cursive']
+                        handwriting: ['"Fredoka"', 'sans-serif'],
+                        script: ['"Fredoka"', 'sans-serif']
                     }
                 }
             }
@@ -244,6 +244,15 @@
             border-radius: 28px;
             box-shadow: 0 10px 25px -5px rgba(246, 91, 167, 0.15), 0 8px 10px -6px rgba(246, 91, 167, 0.1);
             transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .font-script,
+        .font-handwriting {
+            background-image: linear-gradient(90deg, #D94884 0%, #E07838 20%, #B8870A 40%, #368B62 60%, #3785BD 80%, #845BB8 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent !important;
+            -webkit-text-fill-color: transparent;
         }
 
         .coquette-card:hover {
